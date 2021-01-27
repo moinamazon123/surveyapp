@@ -1,0 +1,14 @@
+
+<span *ngIf="enableStarFlag">
+    <div  [ngClass]="{ 'active' : index <= selected, 'hover' :  index <= hover}"></div>
+
+</span>
+<span *ngIf="!enableStarFlag">
+    <span  [ngClass]="{ 'inactive' : index <= selected, 'inhover' :  index <= hover}"></span>
+
+</span>
+
+
+
+
+

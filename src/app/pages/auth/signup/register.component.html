@@ -1,0 +1,109 @@
+<div class="content">
+    <div class="brand">
+        <a class="link" routerLink="/index">Survey Application</a>
+    </div>
+    <form id="register-form"  [formGroup]="signUpGroup"  method="post" >
+        <h2 class="login-title"><i class="fa fa-user-plus"></i></h2>
+       <div class="alert alert-danger" *ngIf="errMsg!=null">
+{{errMsg}}
+
+       </div>
+       <div class="alert alert-success" *ngIf="succMsg!=null">
+        {{succMsg}}
+        
+               </div>
+       <div class="form-group">
+        <button class="btn btn-info btn-block"  (click)="initReg()" type="submit">Test</button>
+    </div>
+        <small *ngIf="!signUpGroup.get('email').touched"
+        id="email" class="form-text text-danger">Must not blank email</small>
+<small *ngIf="signUpGroup.get('email').invalid "
+        id="email" class="form-text text-danger">Must be valid email</small>
+<small *ngIf="signUpGroup.get('phone').invalid "
+        id="phone" class="form-text text-danger">Phone  Must be 10 digit </small>
+      <small *ngIf="signUpGroup.get('password').invalid "
+        id="password" class="form-text text-danger"> Password Must be 8 characters </small>
+       <small *ngIf="signUpGroup.hasError('passwordMatch') && signUpGroup.get('password').touched && signUpGroup.get('confirmPassword').touched"
+        id="email-help" class="form-text text-danger">Passwords Don't Match</small>
+        <small *ngIf="!signUpGroup.get('username').touched"
+        id="username" class="form-text text-danger">Must not blank username</small>
+        <small *ngIf="!signUpGroup.get('agree').touched"
+        id="agree" class="form-text text-danger">Click on Terms & Conditions</small>
+
+
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-shield"></i></div>
+                <select formControlName="role" id="role" [(ngModel)]="user.role" name="role"  style="width: 365px;" class="form-control" [(ngClass)]="select2_demo_1">
+                    <option selected value="Select Role">Register AS </option>
+            <option  [value]="role"    *ngFor="let role of roles"> {{role}}</option>
+                </select>
+            </div>
+</div> 
+      <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                    <input class="form-control"  id="name" formControlName="name"  type="text" [(ngModel)]="user.name" name="name" placeholder="First Name" >
+                    </div>
+      </div>
+              
+   
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-envelope"></i></div> 
+            <input class="form-control" type="email" id="email" formControlName="email"  name="email" [(ngModel)]="user.email" placeholder="exmaple@domain.com" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+            <input class="form-control" type="text" id="city" formControlName="city" name="city" [(ngModel)]="user.city" placeholder="City" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+            <input class="form-control" type="text" id="phone" formControlName="phone" name="phone" [(ngModel)]="user.mobile" placeholder="Phone" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-key"></i></div>
+            <input class="form-control" type="text" id="username" formControlName="username"  name="username" [(ngModel)]="user.username" placeholder="username" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+            <input class="form-control" id="password" formControlName="password" type="password" [(ngModel)]="user.password" name="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+            <input class="form-control" type="password" formControlName="confirmPassword" [(ngModel)]="user.cpassword" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+            </div>
+        </div>
+        <div class="form-group text-left">
+            <label class="ui-checkbox ui-checkbox-info">
+                <input type="checkbox" id="agree" formControlName="agree" [(ngModel)]="agree"  name="agree">
+                <span class="input-span"></span>I agree the terms and policy</label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-info btn-block" [disabled]="signUpGroup.invalid"  (click)="register()" type="submit">Sign up</button>
+        </div>
+       <!--- <div class="social-auth-hr">
+            <span>Or Sign up with</span>
+        </div>
+        <div class="text-center social-auth m-b-20">
+            <a class="btn btn-social-icon btn-twitter m-r-5" href="javascript:;"><i class="fa fa-twitter"></i></a>
+            <a class="btn btn-social-icon btn-facebook m-r-5" href="javascript:;"><i class="fa fa-facebook"></i></a>
+            <a class="btn btn-social-icon btn-google m-r-5" href="javascript:;"><i class="fa fa-google-plus"></i></a>
+            <a class="btn btn-social-icon btn-linkedin m-r-5" href="javascript:;"><i class="fa fa-linkedin"></i></a>
+            <a class="btn btn-social-icon btn-vk" href="javascript:;"><i class="fa fa-vk"></i></a>
+        </div> -->
+        <div class="text-center">Already a member?
+            <a class="color-blue" routerLink="/auth">Login here</a>
+        </div>
+    </form>
+</div>

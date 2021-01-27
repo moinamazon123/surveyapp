@@ -1,0 +1,33 @@
+div {
+    width: 30px;
+    height: 30px;
+    background: lightgrey;
+    border-radius : 50%;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  span {
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius : 50%;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .active {
+    background: orange;
+  }
+  
+  .hover {
+    background: orange;
+  }
+
+  .inactive {
+    background:white;
+  }
+  
+  .inhover {
+    background: white;
+  }

@@ -1,0 +1,52 @@
+<div class="content">
+    <div class="brand">
+        <a class="link" routerLink="/index">Survey Application</a>
+    </div>
+    <small *ngIf="!signInGroup.get('username').touched"
+    id="username" class="form-text text-danger">Must not blank username</small>
+    <small *ngIf="!signInGroup.get('password').touched"
+    id="password" class="form-text text-danger">Must not blank password</small>
+    <div class="alert alert-danger" *ngIf="errMsg!=null">
+        {{errMsg}}
+        
+               </div>
+    <form id="login-form" [formGroup]="signInGroup" method="post">
+        <h2 class="login-title"><i class="fa fa-lock"></i></h2>
+       
+        <div class="form-group">
+            <div class="input-group-icon right">
+                <div class="input-icon"><i class="fa fa-envelope"></i></div>
+                <input class="form-control" type="text" formControlName="username" id="username"  name="user.username" [(ngModel)]="user.username" placeholder="username" autocomplete="off">
+            </div>
+        </div>
+     
+        <div class="form-group">
+            <div class="input-group-icon right">
+                <div class="input-icon"><i class="fa fa-lock font-16"></i></div>
+                <input class="form-control" type="password" formControlName="password" id="password" [(ngModel)]="user.password" name="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-between">
+            <label class="ui-checkbox ui-checkbox-info">
+                <input type="checkbox">
+                <span class="input-span"></span>Remember me</label>
+            <a routerLink="/forgot_password">Forgot password?</a>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-info btn-block" [disabled]="signInGroup.invalid" (click)="login()" type="submit">{{isLoginProgress?'Loading':'Login'}}</button>
+        </div>
+       <!-- <div class="social-auth-hr">
+            <span>Or login with</span>
+        </div>
+        <div class="text-center social-auth m-b-20">
+            <a class="btn btn-social-icon btn-twitter m-r-5" href="javascript:;"><i class="fa fa-twitter"></i></a>
+            <a class="btn btn-social-icon btn-facebook m-r-5" href="javascript:;"><i class="fa fa-facebook"></i></a>
+            <a class="btn btn-social-icon btn-google m-r-5" href="javascript:;"><i class="fa fa-google-plus"></i></a>
+            <a class="btn btn-social-icon btn-linkedin m-r-5" href="javascript:;"><i class="fa fa-linkedin"></i></a>
+            <a class="btn btn-social-icon btn-vk" href="javascript:;"><i class="fa fa-vk"></i></a>
+        </div> -->
+        <div class="text-center">Not a member?
+            <a class="color-blue" routerLink="/register">Create accaunt</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,180 @@
+.modal-dialog{
+    margin-top: 10%;
+}
+.modal-content{
+    width: 170%;
+    margin-left: -10%;
+ 
+}
+.ibox-head{
+    background-color: silver;
+}
+.mat-slider {
+    width: 300px;
+  }
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 32px;
+    background: #e6e6e6;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin: 0;
+    opacity: 1;
+    margin-bottom: 22px;
+    height: 2px;
+}
+  .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      content: "";
+      background: white;
+      height: 32px;
+      width: 32px;
+      border-radius: 100%;
+      top: 0;
+      -webkit-box-shadow: 0 2px 5px rgba(0,0,0,.25);
+      box-shadow: 0 2px 5px rgba(0,0,0,.25);
+      z-index: 10;
+      transition: all 0.2s;
+  }
+
+.modal-delete-content{
+  width: 70%;
+  margin-left: -10
+}
+
+  .slider::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    content: "";
+    background: white;
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    top: 0;
+    -webkit-box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+.slider::-ms-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    content: "";
+    background: white;
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    top: 0;
+    -webkit-box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    z-index: 10;
+    transition: all 0.2s;
+}
+
+
+  .custom-slider .ng5-slider .ng5-slider-selection {
+    background: orange;
+  }
+
+  .custom-slider .ng5-slider .ng5-slider-pointer {
+    width: 8px;
+    height: 16px;
+    top: auto; /* to remove the default positioning */
+    bottom: 0;
+    background-color: #333;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .custom-slider .ng5-slider .ng5-slider-pointer:after {
+    display: none;
+  }
+
+  .custom-slider .ng5-slider .ng5-slider-bubble {
+    bottom: 14px;
+  }
+
+  .custom-slider .ng5-slider .ng5-slider-limit {
+    font-weight: bold;
+    color: orange;
+  }
+
+  .custom-slider .ng5-slider .ng5-slider-tick {
+    width: 1px;
+    height: 10px;
+    margin-left: 4px;
+    border-radius: 0;
+    background: #ffe4d1;
+    top: -1px;
+  }
+
+  .custom-slider .ng5-slider .ng5-slider-tick.ng5-slider-selected {
+    background: orange;
+  }
+
+
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+.toggle-button {
+  margin: 0 auto;
+} 
+
+.sliderDiv {
+  width: 30px;
+  height: 30px;
+  background: lightgrey;
+  border-radius : 50%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.active {
+  background: orange;
+}
+
+.hover {
+  background: orange;
+}
+
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
