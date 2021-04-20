@@ -1,19 +1,20 @@
-import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import {Router, NavigationStart, NavigationEnd} from '@angular/router';
-import {Helpers} from "./helpers";
-import { Location } from "@angular/common";
+import { Component, OnInit, AfterViewInit, ViewEncapsulation}from '@angular/core';
+import {Router, NavigationStart, NavigationEnd}from '@angular/router';
+import {Helpers}from "./helpers";
+import {Location}from "@angular/common";
+import {SurveyService }from './_services/survey.service';
 
 @Component({
-  selector: 'body',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  encapsulation: ViewEncapsulation.None,
+selector: 'body',
+templateUrl: './app.component.html',
+styleUrls: ['./app.component.css'],
+encapsulation: ViewEncapsulation.None,
 })
 
 export class AppComponent implements OnInit, AfterViewInit {
-  title = 'app';
-  currentRoute: string;
-  constructor(private _router: Router,location: Location) {
+title = 'app';
+currentRoute: string;
+constructor(private _router: Router,location: Location,private surveyService:SurveyService) {
 
 	_router.events.subscribe(val => {
 		if (location.path() != "") {
@@ -25,18 +26,39 @@ export class AppComponent implements OnInit, AfterViewInit {
 	  });
 }
 
-  
+/* checktoken(token){
+
+    let flag;
+    this.surveyService.validateToken(token).subscribe( res=>{
+
+     flag = res['_body'];
+	 console.log(flag,token);
+	 if(flag === 'false'){
+		 console.log("Session Expired");
+		 this._router.navigate(['/auth']);
+	 }
+
+    } , error => {
+      flag = error['_body'];
+    })
+
+  return flag;
+
+   } */
+
 
   ngOnInit() {
-	 
-	if(sessionStorage.getItem("username")!=null){
+
+	/*if(this.checktoken(localStorage.getItem("token"))!=='false'){
 	console.log(this.currentRoute);
+	console.log("session is active")
 	if(this.currentRoute ==='/survey') {
 		this._router.navigate([this.currentRoute]);
 	}
 	  } else{
+		  console.log("your session is expired")
 		this._router.navigate(['/auth']);
-	  }
+	  } */
 		this._router.events.subscribe((route) => {
 			if (route instanceof NavigationStart) {
 				Helpers.setLoading(true);

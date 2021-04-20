@@ -1,8 +1,11 @@
-<button type="button" (click)="clearValues()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Create Survey</button>
-<button type="button" class="btn btn-primary" (click)="backSurvey()"  data-whatever="@fat">Survey List</button>
-jjj
+<button type="button" (click)="clearValues()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+        data-whatever="@mdo">Create Survey
+</button>
+<button type="button" class="btn btn-primary" (click)="backSurvey()" data-whatever="@fat">Survey List</button>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal"
+     role="dialog" tabindex="-1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,20 +15,25 @@ jjj
         </button>
       </div>
       <div class="modal-body">
-        <form  class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
+        <div *ngIf="surveySucc!=null">
+          <div class="alert alert-success">{{surveySucc}}</div>
+        </div>
+        <form class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Survey Title:</label>
-            <input type="text" class="form-control" id="surveyTitile" [(ngModel)]="survey.surveyTitle" name="surveyTitile">
+            <input type="text" class="form-control" id="surveyTitile" [(ngModel)]="survey.surveyTitle"
+                   name="surveyTitile">
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Place Holder</label>
-            <input type="text" class="form-control" id="placeholder" name="placeholder" [(ngModel)]="survey.placeholder">
+            <input type="text" class="form-control" id="placeholder" name="placeholder"
+                   [(ngModel)]="survey.placeholder">
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Punchline</label>
             <input type="text" class="form-control" id="surveyPunch" name="surveyPunch" [(ngModel)]="survey.punchline">
           </div>
-          <img width="30%" *ngIf="surveyLogoUrl" [src]="survey.surveyLogoUrl" class="image">
+          <img *ngIf="surveyLogoUrl" [src]="survey.surveyPreviewLogoUrl" class="image" width="30%">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Upload Logo</label>
             <input type="file" (change)="uploadLogo($event)" class="form-control" id="surveyLogo" name="surveyLogo" >
@@ -38,26 +46,27 @@ jjj
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" data-dismiss="modal" (click)="onSubmit(survey)"  class="btn btn-primary">Create</button>
+        <button (click)="onSubmit()" class="btn btn-primary" data-dismiss="modal" type="button">Create</button>
       </div>
     </div>
   </div>
 
-  
+
 </div>
 <!-- Survey Create Ends-->
 <!-- Survey Edit Starts -->
-<div  class="modal fade" id="editSurveyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Survey Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form  class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
+<div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="editSurveyModal"
+     role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Survey Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Survey Title:</label>
               <input type="text" class="form-control" id="surveyTitile" (ngModelChange)="textChanged($event)" [(ngModel)]="editSurvey.surveyTitle" name="surveyTitile">
@@ -71,7 +80,7 @@ jjj
               <input type="text" class="form-control" id="surveyPunch" name="surveyPunch" [(ngModel)]="editSurvey.punchline">
             </div>
 
-<img width="30%" *ngIf="surveyLogoUrl" [src]="editSurvey.surveyLogoUrl" class="image">
+          <img *ngIf="updateSurveyFlag" [src]="editSurvey.surveyLogoUrl" class="image" width="30%">
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Upload Logo</label>
               <input type="file" (change)="uploadLogoUP($event,editSurvey.id)" class="form-control" id="surveyLogo" name="surveyLogo" >
@@ -88,25 +97,25 @@ jjj
         </div>
       </div>
     </div>
-  
-    
-  </div>
+
+
+</div>
 <!-- Survey Edit Ends-->
 
 <!-- Survey Build flag starts -->
 
-<div  class="ibox">
-   
-    <div class="ibox-head">
-        <div class="ibox-title">Survey List</div>
-        <div class="ibox-tools">
-            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-            
-        </div>
+<div *ngIf="!previewSurv" class="ibox">
+
+  <div class="ibox-head">
+    <div class="ibox-title">Survey List</div>
+    <div class="ibox-tools">
+      <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
 
     </div>
-    
-    <div class="ibox-body">
+
+  </div>
+
+  <div class="ibox-body">
         <div class="" data-height="200px" class="table-responsive">
             <table class="table">
                 <thead>
@@ -131,157 +140,226 @@ jjj
                         <td>{{survey.instruction}}</td>
                         <td>{{loggedInUser}}</td>
                         <td>{{ now | date: 'dd/MM/yyyy' }}</td>
-                        <td>
-                            <button class="btn btn-primary btn-xs m-r-5" data-toggle="tooltip" (click)="surveyBuild(i)" data-original-title="Buid"><i class="fa fa-wrench font-14"></i></button>
-                            <button class="btn btn-primary btn-xs m-r-5" data-toggle="modal" data-target="#editSurveyModal"  (click)="surveyEdit(i)" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
-                            <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteConfirmModal"  data-original-title="Delete"><i class="fa fa-trash font-14"></i></button>
-                        </td>
+                      <td>
+                        <button (click)="surveyBuild(i)" class="btn btn-primary" data-original-title="Buid"
+                                data-toggle="tooltip"><i class="fa fa-wrench"></i></button>
+                        <button (click)="surveyEdit(i)" class="btn btn-primary" data-original-title="Edit"
+                                data-target="#editSurveyModal" data-toggle="modal"><i class="fa fa-pencil"></i></button>
+                        <a [routerLink]="['/surveypreview', survey.surveyIndex]" style="color: blue;cursor: pointer;">
+                          <button class="btn btn-primary"><i class="fa fa-play"></i></button>
+                        </a>
+                        <button (click)="surveyBuild(i)" class="btn btn-primary" data-target="#settingModal"
+                                data-toggle="modal" type="button"><i class="fa fa-cogs"></i></button>
+                        <button (click)="deleteSurvey(i)" class="btn btn-danger" data-original-title="Delete"><i
+                          class="fa fa-trash"></i></button>
+                      </td>
                     </tr>
-                   
+
                 </tbody>
             </table>
         </div>
-    </div>
+  </div>
 </div>
 
 <!-- Survey Build Ends -->
 
-<!-- Delete Survey Confirmation Modal -->
+<!--  Survey Setting Modal -->
 
-<div  class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="settingModal"
+     role="dialog" tabindex="-1">
+
+
   <div class="modal-dialog" role="document">
-    <div class="modal-delete-content">
+    <div class="modal-content">
+      <div *ngIf="loading">
+        <img height="10%" src="../../../assets/img/loading.gif" style="align-content: center;" width="10%">
+      </div>
+      <div *ngIf="ermsg!=null" class="alert alert-danger">{{ermsg}}</div>
+      <div *ngIf="succmsg!=null" class="alert alert-success">{{succmsg}}</div>
       <div class="modal-header">
         <div class="alert alert-info alert-dismissable fade show">
-          <button aria-label="Close" class="close" data-dismiss="alert">
-              <span aria-hidden="true">×</span>
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
           </button>
-          <h4>Hello!</h4>
-          <p>Are you Sure to Delete This Survey</p>
-          <p>
-              <button  class="btn btn-success">Yes</button>
-              <button data-dismiss="modal" class="btn btn-warning">Cancel</button>
-          </p>
+          <div class="modal-body">
+            <h4>Survey Setting</h4>
+            <div class="form-group">
+              <label for="recipient-name">Assignee:</label>
+              <select (change)="userlist()" [(ngModel)]="email" class="selectpicker form-control" name="email"
+                      style="width: 365px;">
+                <option selected value="Select email">Select User</option>
+                <option *ngFor="let email of data" [value]="email"> {{email.split('_')[0]}}</option>
+              </select>
+            </div>
+            Assignee: {{selectEmailList.toString()}}
+            <div class="form-group">
+              <label for="recipient-name">Login Required:</label>
+              <app-switch (click)="loginRequired()" [(ngModel)]="loginRequiredFlag" [labelOff]="optional"
+                          [labelOn]="required" name="loginRequiredFlag" size="large"></app-switch>
+            </div>
+            <p>
+              <button (click)="notifyUser()" class="btn btn-success">Notify User</button>
+              <button class="btn btn-warning" data-dismiss="modal">Cancel</button>
+            </p>
+          </div>
+        </div>
       </div>
-        </div>
-        </div>
-        </div>
+    </div>
+  </div>
 </div>
 <!-- Ends -->
-<div  class="ibox">
-    <div class="ibox-head">
-        <div class="ibox-title">Survey for <i>{{buildsurvey.surveyTitle}}</i> </div>
-        <div class="ibox-tools">
-            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-            
+
+
+<!-- Delete Survey Confirmation Modal -->
+
+<div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
+     id="deleteConfirmModal" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="alert alert-info alert-dismissable fade show">
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4>Hello!</h4>
+          <div class="modal-body">
+            <p>Are you Sure to Delete This Survey</p>
+            <p>
+              <button class="btn btn-success">Yes</button>
+              <button data-dismiss="modal" class="btn btn-warning">Cancel</button>
+            </p>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Ends -->
+<div *ngIf="!previewSurv" class="ibox">
+  <div class="ibox-head">
+    <div class="ibox-title">Survey for <i>{{buildsurvey.surveyTitle}}</i></div>
+    <div class="ibox-tools">
+      <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
 
     </div>
-  
-    <div class="ibox-body">
+
+  </div>
+
+  <div class="ibox-body">
         <button type="button" class="btn btn-primary" [disabled]="surveyList.length===0 ?true:(!buildSectionFlag?true:false)" (click)="clearSection()" data-toggle="modal" data-target="#sectionModal" data-whatever="@getbootstrap">Add Section</button>
         </div>
         </div>
 
 <!-- Section add starts -->
-        <div class="modal fade" id="sectionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Section Details</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form  class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
+<div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="sectionModal"
+     role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Section Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Section Title:</label>
                       <input type="text" class="form-control" id="surveyTitile" [(ngModel)]="section.secTitle" name="surveyTitile">
                     </div>
-               
+
                   </form>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" data-dismiss="modal" (click)="saveSection(survey)"  class="btn btn-primary">Create</button>
-                </div>
-              </div>
-            </div>
-          
-            
-          </div>
-          <!-- Section ends -->
-<!-- Section listing for Selected Survey -->
-          <div  class="ibox">
-            <div class="ibox-head">
-                <div class="ibox-title">Survey Sections for <i>{{buildsurvey.surveyTitle}}</i>  </div>
-                <div class="ibox-tools">
-                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-                    
-                </div>
-            </div>
-            <div class="ibox-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th width="50px"></th>
-                                <th>Survey Titile</th>
-                                <th>Survey Section Title</th>
-                                <th>Created By</th>
-                                <th>Created On</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let section of buildsurvey.surveySections;let i =index;">
-                                <td>
-                                    <label class="ui-checkbox">
-                                        <input type="checkbox">
-                                        <span class="input-span"></span>
-                                    </label>
-                                </td>
-                                <td>{{buildsurvey.surveyTitle}}</td>
-                                <td>{{section.secTitle}}</td>
-                                <td>{{buildsurvey.createdBy}}</td>
-                                <td>02/08/2017</td>
-                                <td>
-                                    
-                                    <button class="btn btn-primary btn-xs m-r-5" data-toggle="tooltip" (click)="addQuestions(i)" data-original-title="Buid"><i class="fa fa-question font-14"></i></button>
-                                    <button class="btn btn-primary btn-xs m-r-5" data-toggle="modal" data-target="#editSectionModal"  (click)="sectionEdit(i)" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
-                                    <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></button>
-                                </td>
-                            </tr>
-                           
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- Ends section listing -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button (click)="saveSection()" class="btn btn-primary" data-dismiss="modal" type="button">Create</button>
+      </div>
+    </div>
+  </div>
 
 
-<!-- Question Build Ends -->
-<div  class="ibox">
+</div>
+<!-- Section ends -->
+
+<div class="ibox-head">
+
+
+  <!-- Section listing for Selected Survey -->
+  <div *ngIf="!previewSurv" class="ibox">
     <div class="ibox-head">
-        <div class="ibox-title">Questions for <i>{{buildQueSection.secTitle}}</i> </div>
-        <div class="ibox-tools">
-            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-            
-        </div>
+      <div class="ibox-title">Survey Sections for <i>{{buildsurvey.surveyTitle}}</i></div>
+      <div class="ibox-tools">
+        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+
+      </div>
+    </div>
+    <div class="ibox-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th width="50px"></th>
+            <th>Survey Titile</th>
+            <th>Survey Section Title</th>
+            <td>Created By</td>
+            <td>Create Date</td>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let section of buildsurvey.surveySections;let i =index;">
+            <td>
+              <label class="ui-checkbox">
+                <input type="checkbox">
+                <span class="input-span"></span>
+              </label>
+            </td>
+            <td>{{buildsurvey.surveyTitle}}</td>
+            <td>{{section.secTitle}}</td>
+            <td>{{loggedInUser}}</td>
+            <td>{{ now | date: 'dd/MM/yyyy' }}</td>
+            <td>
+
+              <button class="btn btn-primary btn-xs m-r-5" data-toggle="tooltip" (click)="addQuestions(i)"
+                      data-original-title="Buid"><i class="fa fa-question font-14"></i></button>
+              <button (click)="sectionEdit(i)" class="btn btn-primary btn-xs m-r-5" data-original-title="Edit"
+                      data-target="#sectionModal" data-toggle="modal"><i class="fa fa-pencil font-14"></i></button>
+              <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Delete"><i
+                class="fa fa-trash font-14"></i></button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Ends section listing -->
+
+
+  <!-- Question Build Ends -->
+  <div *ngIf="!previewSurv" class="ibox">
+    <div class="ibox-head">
+      <div class="ibox-title">Questions for <i>{{buildQueSection.secTitle}}</i></div>
+      <div class="ibox-tools">
+        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+
+      </div>
 
     </div>
-   
+
     <div class="ibox-body">
-        <button type="button" class="btn btn-primary"  data-toggle="modal" [disabled]="buildsurvey.surveySections!=null ?(!buildQuestionsFlag?true:false):true" (click)="addNewQuestions()" data-target="#questionModal" data-whatever="@getbootstrap">Add Questions</button>
-        </div>
-        </div>
+      <button (click)="addNewQuestions()" class="btn btn-primary" data-target="#questionModal" data-toggle="modal"
+              data-whatever="@getbootstrap" type="button">Add Questions
+      </button> <!--[disabled]="buildsurvey.surveySections!=null ?(!buildQuestionsFlag?true:false):true"-->
+    </div>
+  </div>
 
-<!-- question build ends-->
+  <!-- question build ends-->
 
-<!--Add QUestion Starts -->
-<div class="modal fade"   id="questionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!--Add Question Starts -->
+  <div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="questionModal"
+       role="dialog" tabindex="-1">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -291,247 +369,588 @@ jjj
           </button>
         </div>
         <div class="modal-body">
-          <form  class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
+          <form class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Question Title:</label>
-              <input type="text" class="form-control" id="questionTitle"  [(ngModel)]="question.questionTitle" name="questionTitle">
+              <input type="text" class="form-control" id="questionTitle" [(ngModel)]="question.questionTitle"
+                     name="questionTitle">
             </div>
+
+            <div *ngIf="!dependentFlag" class="form-group">
+              <label class="col-form-label" for="message-text">Required Flag:</label>
+              <app-switch (click)="setBooleanValue(section,question)" [(ngModel)]="requiredFlag" [labelOff]="optional"
+                          [labelOn]="required" name="skip_notification" size="large"></app-switch>
+            </div>
+            <img [src]="retrievedImage">
             <div class="form-group">
-              <label for="message-text"  class="col-form-label">Question Type:</label>
-              <select [(ngModel)]="questionType" name="questionType" (change)="change($event)" style="width: 365px;" class="form-control" [(ngClass)]="select2_demo_1">
+              <label for="message-text" class="col-form-label">Question Type:</label>
+              <select (change)="change($event)" [(ngModel)]="questionTypeId" class="selectpicker form-control"
+                      name="questionTypeId" style="width: 365px;">
                 <option selected value="Select QT">Select Question Type</option>
-        <option  [value]="questionType.questionTypeId"    *ngFor="let questionType of questionTypeList"> {{questionType.questionTitle}}</option>
-            </select>
+                <option *ngFor="let questionType of questionTypeList" [value]="questionType.id">
+                  {{questionType.questionType}}
+                </option>
+              </select>
+            </div>
+            <td *ngIf="getQuestionType(questionTypeId)==='Single Line' "><input [(ngModel)]="placeholder"
+                                                                                class="form-control" name="placeholder"
+                                                                                placeholder="placeholder" type="text">
+            </td>
+            <br/>
+
+
+            <div *ngIf="getQuestionType(questionTypeId)==='Slider' " class="form-group">
+              <td><label for="recipient-name" class="col-form-label">Start Value</label>
+                <input type="text" class="form-control" id="startValue" (change)="sliderChanged($event)"
+                       [(ngModel)]="startValue" name="startValue"></td>
+              <td><label for="recipient-name" class="col-form-label">End Value</label>
+                <input type="text" class="form-control" id="endValue" (change)="sliderChanged($event)"
+                       [(ngModel)]="endValue" name="endValue"></td>
+              <td><label for="recipient-name" class="col-form-label">Interval</label>
+                <input type="text" class="form-control" id="interval" (change)="sliderChanged($event)"
+                       [(ngModel)]="interval" name="interval"></td>
+              <td><label for="recipient-name" class="col-form-label">Unit</label>
+                <select (change)="setSliderUnit($event)" [(ngClass)]="select2_demo_1" [(ngModel)]="sliderUnit"
+                        class="form-control" name="sliderUnit" style="width: 365px;">
+                  <option selected value="Select Unit">Select Unit</option>
+                  <option *ngFor="let unit of sliderUnits" [value]="unit.id+'_'+unit.unit"> {{unit.unit}}</option>
+                </select>
+              </td>
+
+
             </div>
 
-            <div *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Slider' " class="form-group">
-               <td><label for="recipient-name" class="col-form-label">Start Value</label>
-              <input  type="text" class="form-control" id="startValue" (change)="sliderChanged($event)" [(ngModel)]="startValue" name="startValue"></td> 
-              <td><label for="recipient-name" class="col-form-label">End Value</label>
-                <input type="text" class="form-control" id="endValue" (change)="sliderChanged($event)" [(ngModel)]="endValue" name="endValue"></td> 
-                <td><label for="recipient-name" class="col-form-label">Interval</label>
-                    <input type="text" class="form-control" id="interval" (change)="sliderChanged($event)" [(ngModel)]="interval" name="interval"></td> 
-                    <td><label for="recipient-name" class="col-form-label">Unit</label>
-                      <select [(ngModel)]="sliderUnit" name="sliderUnit" (change)="change($event)" style="width: 365px;" class="form-control" [(ngClass)]="select2_demo_1">
-                        <option selected value="Select Unit">Select Unit</option>
-                <option  [value]="unit"    *ngFor="let unit of sliderUnits"> {{unit}}</option>
-                    </select> 
-                    </td> 
-               
-              
-              </div>
-           
-          
 
-            <div *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Boolean' " class="form-group">
+            <div *ngIf="getQuestionType(questionTypeId)==='Boolean' " class="form-group">
               <label for="recipient-name" class="col-form-label">inLine Text</label>
-             
-                <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> yes
-                    <input name="isInlineText"  (ngModelChange)="change($event)" value="yes"  [(ngModel)]="isInlineText" type="radio">
-                </label>
-                <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> no
-                    <input name="isInlineText"  (ngModelChange)="change($event)" value="no"  [(ngModel)]="isInlineText" type="radio">
-                </label>
-     
-            
-           
-                <label *ngIf="isInlineText ==='no'" for="recipient-name" class="col-form-label">Multi Line Text</label>
-               
-                  <label *ngIf="isInlineText ==='no'" class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> yes
-                      <input  name="isMultiLineText"  (ngModelChange)="change($event)" value="yes"  [(ngModel)]="isMultiLineText" type="radio">
-                  </label>
-                  <label *ngIf="isInlineText ==='no'" class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> no
-                      <input name="isMultiLineText"  (ngModelChange)="change($event)" value="no"  [(ngModel)]="isMultiLineText" type="radio">
-                  </label>
-       
-              
-              </div>
-            <div class="form-group">
-                <label for="recipient-name" class="col-form-label">is Dependent</label>
-               
-                  <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> yes
-                      <input  name="dependentFlag"  (ngModelChange)="change($event)" value="yes"  [(ngModel)]="dependentFlag" type="radio">
-                  </label>
-                  <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> no
-                      <input name="dependentFlag" (ngModelChange)="change($event)"   value="no" [(ngModel)]="dependentFlag" type="radio">
-                  </label>
-       
-   
-              </div>
-              <div *ngIf="dependentFlag ==='yes'" class="form-group">
-                <label for="recipient-name" class="col-form-label">Enter Question on which it depends</label>
-                <select [(ngModel)]="dependentQuestionId" (change)="setDependentAns()" name="dependentQuestionId" style="width: 365px;" class="form-control select2_demo_1">
-                    <option selected value="Select QT">Select Question </option>
-            <option  [value]="question.id"  *ngFor="let question of buildQueSection.questions;let i =index"> {{question.questionTitle}}</option>
-                </select>
 
-                <label for="recipient-name" class="col-form-label">Enter Answer</label>
-                <select [(ngModel)]="dependentAns"  name="dependentAns" style="width: 365px;" class="form-control select2_demo_1">
-                    <option selected value="Select Ans">Select Answer </option>
-            <option  [value]="ans.optionText"  *ngFor="let ans of dependentAnsList;let i =index"> {{ans.optionText}}</option>
-                </select>
+              <label class="col-form-label" for="message-text">Inline Text Flag:</label>
+              <app-switch (change)="inlineTextFlag=$event" [(ngModel)]="inlineTextFlag" [labelOff]="inlineTextOff"
+                          [labelOn]="inlineTextOn" name="skip_notification" size="large"></app-switch>
+
+
+              {{inlineTextFlag}}
+              <div *ngIf="!inlineTextFlag">
+                <label class="col-form-label" for="recipient-name">Multi Line Text</label>
+
+                <app-switch (change)="multiLineTextFlag=$event" [(ngModel)]="multiLineTextFlag"
+                            [labelOff]="multilineTextOff" [labelOn]="multilineTextOn" name="skip_notification"
+                            size="large"></app-switch>
               </div>
+              <tr><label class="btn btn-outline-info">label on
+                <select (change)="setBooleanLabel($event)" [(ngModel)]="labelOn" class="form-control select2_demo_1"
+                        name="labelOn" style="width: 365px;">
+                  <option selected value="Select On Label">Select Laben On</option>
+                  <option *ngFor="let label of booleanQuestionList;let i =index" [value]="label.id"> {{label.labelOn}}
+                  </option>
+                </select>
+              </label>
+                <label class="btn btn-outline-info">label off
+                  <select (change)="setBooleanLabel($event)" [(ngModel)]="labelOff" class="form-control select2_demo_1"
+                          name="labelOn" style="width: 365px;">
+                    <option selected value="Select On Label">Select Laben On</option>
+                    <option *ngFor="let label of booleanQuestionList;let i =index" [value]="label.id">
+                      {{label.labelOff}}
+                    </option>
+                  </select>
+                </label>
+              </tr>
+              {{inlineText}}
+              <div *ngIf="inlineTextFlag">
+                <tr><input [(ngModel)]="inLineAnswer" class="form-control" name="inLineAnswer" placeholder="answer"
+                           type="text"></tr>
+                <tr><input [(ngModel)]="inlineQuestion" class="form-control" name="inlineQuestion"
+                           placeholder="Enter Question(InLine)" type="text"></tr>
+
+              </div>
+              <div *ngIf="multiLineTextFlag">
+                <tr><input [(ngModel)]="multilineAnswer" class="form-control" name="multilineAnswer"
+                           placeholder="answer" type="text"></tr>
+                <tr><input [(ngModel)]="multilineQuestion" class="form-control" name="multilineQuestion"
+                           placeholder="Enter Question(MultiLine)" type="text"></tr>
+
+              </div>
+
+            </div>
             <div class="form-group">
-                <button type="button" class="btn btn-primary" (click)="addOptions(rowIndex)"  >Add Options</button>
+              <label for="recipient-name" class="col-form-label">is Dependent</label>
+
+              <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> yes
+                <input name="dependentFlag" (ngModelChange)="change($event)" value="yes" [(ngModel)]="dependentFlag"
+                       type="radio">
+              </label>
+              <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> no
+                <input name="dependentFlag" (ngModelChange)="change($event)" value="no" [(ngModel)]="dependentFlag"
+                       type="radio">
+              </label>
+
+
+            </div>
+            <div *ngIf="enableStarFlag" class="form-group">
+              Star Size : <input (change)="changeStarSize()" [(ngModel)]="starLength" name="starLength" type="text">
+            </div>
+            <div *ngIf="dependentFlag" class="form-group">
+              <label for="recipient-name" class="col-form-label">Enter Question on which it depends</label>
+              <select (change)="setDependentAns($event)" [(ngModel)]="dependentQuestionId"
+                      class="form-control select2_demo_1" name="dependentQuestionId" style="width: 365px;">
+                <option selected value="Select QT">Select Question</option>
+                <option [value]="question.id" *ngFor="let question of buildQueSection.questions;let i =index">
+                  {{question.questionTitle}}
+                </option>
+              </select>
+
+              <label for="recipient-name" class="col-form-label">Enter Answer</label>
+
+
+              <select *ngIf="booleanAnsFlag" [(ngModel)]="dependentAns" class="form-control select2_demo_1"
+                      name="dependentAns" style="width: 365px;">
+                <option selected value="Select Ans">Select Answer</option>
+                <option *ngFor="let ans of booleanValues;let i =index" [value]="ans"> {{ans}}</option>
+              </select>
+
+
+              <select *ngIf="nonBooleanAnsFlag" [(ngModel)]="dependentAns" class="form-control select2_demo_1"
+                      name="dependentAns" style="width: 365px;">
+                <option selected value="Select Ans">Select Answer</option>
+                <option [value]="ans.optionText" *ngFor="let ans of dependentAnsList;let i =index"> {{ans.optionText}}
+                </option>
+              </select>
+
+
+              <select *ngIf="ratingFlag" [(ngModel)]="dependentAns" class="form-control select2_demo_1"
+                      name="dependentAns" style="width: 365px;">
+                <option selected value="Select Ans">Select Answer</option>
+                <option *ngFor="let rate of ratingList;let i =index" [value]="rate"> {{rate}}</option>
+              </select>
+
+
+              <select *ngIf="booleanAnsFlag" [(ngModel)]="dependentAns" class="form-control select2_demo_1"
+                      name="dependentAns" style="width: 365px;">
+                <option selected value="Select Ans">Select Answer</option>
+                <option *ngFor="let ans of booleanValues;let i =index" [value]="ans"> {{ans}}</option>
+              </select>
+
+
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-primary" (click)="addOptions(rowIndex)"  >Add Options</button>
             </div>
             <fieldset>
               <legend>Question Section:</legend>
-              <label for="question-name" class="col-form-label">{{question.questionTitle}}</label> 
-            <tr   *ngFor="let answer of optionList; let i = index">
-               <td *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Single Select(Radio)' " ><input name="optionRadio" value="optionList[i].optionText" type="radio"></td> &nbsp; <td *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle==='Single Select(Radio)'"><input name="answer{{i}}" class="form-control"  type="text" name="response" [value]="optionList[i].optionText" [(ngModel)]="optionList[i].optionText" ></td>
-               <td *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Multi Select' " ><input name="optionCheckbox" value="optionList[i].optionText" type="checkbox"></td> &nbsp; <td *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Multi Select'" ><input name="answer{{i}}" class="form-control"  type="text" name="response" [value]="optionList[i].optionText" [(ngModel)]="optionList[i].optionText" ></td>
-              
-              
-             
-           <!---   <div *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='StarRating' " class="rate">
-                <input type="radio" id="star5" (click)="starChange()" [(ngModel)]="rating[questionId]" name="rate" value="5" />
-                <label for="star5" title="text">5 stars</label>
-                <input type="radio" id="star4" [(ngModel)]="rating[questionId]" name="rate" value="4" />
-                <label for="star4" title="text">4 stars</label>
-                <input type="radio" id="star3" [(ngModel)]="rating[questionId]" name="rate" value="3" />
-                <label for="star3" title="text">3 stars</label>
-                <input type="radio" id="star2" [(ngModel)]="rating[questionId]" name="rate" value="2" />
-                <label for="star2" title="text">2 stars</label>
-                <input type="radio" id="star1" [(ngModel)]="rating[questionId]" name="rate" value="1" />
-                <label for="star1" title="text">1 star</label>
-              </div> -->
-      
+              <label for="question-name" class="col-form-label">{{question.questionTitle}}</label>
+              <tr *ngFor="let answer of optionList; let i = index">
+                <td *ngIf="getQuestionType(questionTypeId) ==='Single Select(Radio)' "><input name="optionRadio"
+                                                                                              type="radio"
+                                                                                              value="optionList[i].optionText">
+                </td> &nbsp;
+                <td *ngIf="getQuestionType(questionTypeId)==='Single Select(Radio)'"><input
+                  [(ngModel)]="optionList[i].optionText" [value]="optionList[i].optionText" class="form-control"
+                  name="answer{{i}}" name="response" type="text"></td>
 
-<div *ngIf="inlineText === 'yes'">
-<input type="text" [(ngModel)]="question.inlineAnswer" name="inlinetextAns">
+                <td *ngIf="getQuestionType(questionTypeId) ==='Multi Select' "><input name="optionCheckbox"
+                                                                                      type="checkbox"
+                                                                                      value="optionList[i].optionText">
+                </td> &nbsp;
+                <td *ngIf="getQuestionType(questionTypeId)! =='Multi Select'"><input
+                  [(ngModel)]="optionList[i].optionText" [value]="optionList[i].optionText" class="form-control"
+                  name="answer{{i}}" name="response" type="text"></td>
+                &nbsp;<td>
+                <button (click)="deleteOptions(i)" alt="delete option" class="btn btn-danger"><i
+                  class="fa fa-trash"></i></button>
+              </td>
 
-</div>
-<div *ngIf="multiLineText === 'yes'">
-  <input type="text" [(ngModel)]="question.multilineAnswer" name="multilinetextAns">
-  
-  </div>
-            </tr>
-            <br/>
-            <td *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Single Line' "><input  class="form-control"  type="text" name="textRespoonse"  [(ngModel)]="textRespoonse" ></td><br/>
-            <td *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Multi Line' " ><textarea name="paragraph" class="form-control"   [(ngModel)]="paragraph" ></textarea></td><br/>
-       
-            <div *ngIf="questionTypeList[questionType]!=null && questionTypeList[questionType].questionTitle ==='Boolean' ">
-              <toggle-button  (changed)="checked=$event">
-              </toggle-button>
-             <!--- InLIne Text <input name="inlineTextCheck" [(ngModel)]="inlineTextCheck" type="checkbox"> -->
-              <p>The state is {{checked ? 'Yes' : 'No'}}.</p>
 
-</div>
+              </tr>
+              <br/> <br/>
+              <td *ngIf="getQuestionType(questionTypeId)==='Single Line' "><input [(ngModel)]="textRespoonse"
+                                                                                  [placeholder]="placeholder"
+                                                                                  class="form-control"
+                                                                                  name="textRespoonse" type="text"></td>
+              <br/>
+              <td *ngIf="getQuestionType(questionTypeId)==='Multi Line' "><textarea [(ngModel)]="paragraph"
+                                                                                    class="form-control"
+                                                                                    name="paragraph"></textarea></td>
+              <br/>
 
-           <star-rating *ngFor="let index of stars" [enableStarFlag]="enableStarFlag" [index]="index"  (click)="selected = index" [selected]="selected" (mouseover)="hover = index" (mouseout)="hover = -1"
-           [hover]="hover"></star-rating>
-    
-           <span *ngIf="enableStarFlag">{{selected}}</span>
-           <slider-comp  [startValue]="startValue" [endValue]="endValue" [enableFlag]="enableFlag" ></slider-comp>
-          <span *ngIf="enableFlag">{{sliders[0].value}}</span> 
-          
-         
-          <!--- <ng5-slider  [(value)]="sliders[0].value" 
-            [options]="sliderOption()"></ng5-slider> -->
-          
-           
-        
-        
+              <div *ngIf="getQuestionType(questionTypeId)==='Boolean' ">
+                <app-switch [labelOff]="getLabelOff()" [labelOn]="getLabelOn()" name="skip_notification"
+                            size="large"></app-switch>
+                <!--- InLIne Text <input name="inlineTextCheck" [(ngModel)]="inlineTextCheck" type="checkbox"> -->
+                <p>The state is {{checked ? 'Yes' : 'No'}}.</p>
+
+              </div>
+
+              <star-rating *ngFor="let index of stars" [enableStarFlag]="enableStarFlag" [index]="index"
+                           (click)="selected = index" [selected]="selected" (mouseover)="hover = index"
+                           (mouseout)="hover = -1"
+                           [hover]="hover"></star-rating>
+
+              <span *ngIf="enableStarFlag">{{selected}}</span>
+
+              <slider-comp [enableFlag]="enableFlag" [endValue]="endValue"
+                           [sliderUnit]="sliderUnit!=null?sliderUnit.split('_')[1]:''" [startValue]="startValue"
+                           style="width:800%"></slider-comp>
+              <span *ngIf="enableFlag">{{sliders[0].value}}</span>
+
+
+              <!--- <ng5-slider  [(value)]="sliders[0].value"
+                [options]="sliderOption()"></ng5-slider> -->
+
+
             </fieldset>
-         
+
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="cancelUpdate()" data-dismiss="modal">Cancel</button>
-          <button type="button" data-dismiss="modal" (click)="addQuestion()"  class="btn btn-primary">Add Question</button>
+          <button type="button" data-dismiss="modal" (click)="addQuestion()" class="btn btn-primary">Add Question
+          </button>
         </div>
       </div>
     </div>
 
 
-
-
   </div>
 
-  <div  class="ibox">
+
+  <!--Edit Question Starts -->
+  <div *ngIf="!previewSurv" aria-hidden="true" aria-labelledby="questionSectionModal" class="modal fade"
+       id="questionSectionModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Questions for {{buildQueSection.secTitle}} </h5>
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" id="surveyForm" method="post" novalidate="novalidate">
+            <div class="form-group">
+              <label class="col-form-label" for="recipient-name">Question Title:</label>
+              <input [(ngModel)]="editquestion.questionTitle" class="form-control" id="questionTitle"
+                     name="questionTitle" type="text">
+            </div>
+            <div *ngIf="dependentFlag ==='no'" class="form-group">
+              <label class="col-form-label" for="message-text">Required Flag:</label>
+              <app-switch (click)="setBooleanValue(section,editquestion)" [(ngModel)]="requiredFlag"
+                          [labelOff]="optional" [labelOn]="required" name="skip_notification" size="large"></app-switch>
+            </div>
+            <div class="form-group">
+
+              <label class="col-form-label" for="message-text">Question Type:</label>{{questionTypeList[editquestion.questionTypeId]!=null?questionTypeList[editquestion.questionTypeId].questionType:''}}
+              <a (click)="enableQuesType()">Change</a>
+              <select (change)="change($event)" *ngIf="enableQuestionType" [(ngModel)]="questionType"
+                      class="form-control" name="questionType" style="width: 365px;">
+                <option
+                  [value]="questionTypeList[editquestion.questionTypeId]!=null?questionTypeList[editquestion.questionTypeId].questionType:''"
+                  selected>
+                  {{questionTypeList[editquestion.questionTypeId]!=null?questionTypeList[editquestion.questionTypeId].questionType:''}}
+                </option>
+                <option *ngFor="let questionType of questionTypeList" [value]="questionType.id">
+                  {{questionType.questionType}}
+                </option>
+              </select>
+            </div>
+
+            <div
+              *ngIf="questionTypeList[editquestion.questionTypeId]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Slider' "
+              class="form-group">
+              <td><label class="col-form-label" for="recipient-name">Start Value</label>
+                <input (change)="sliderChanged($event)" [(ngModel)]="editquestion.startValue" class="form-control"
+                       id="startValue" name="startValue" type="text"></td>
+              <td><label class="col-form-label" for="recipient-name">End Value</label>
+                <input (change)="sliderChanged($event)" [(ngModel)]="editquestion.endValue" class="form-control"
+                       id="endValue" name="endValue" type="text"></td>
+              <td><label class="col-form-label" for="recipient-name">Interval</label>
+                <input (change)="sliderChanged($event)" [(ngModel)]="editquestion.interval" class="form-control"
+                       id="interval" name="interval" type="text"></td>
+              <td><label class="col-form-label" for="recipient-name">Unit</label>
+                <select (change)="setSliderUnit($event)" [(ngClass)]="select2_demo_1" [(ngModel)]="sliderUnit"
+                        class="form-control" name="sliderUnit" style="width: 365px;">
+                  <option [value]="editquestion.sliderUnit" selected>Select Unit</option>
+                  <option *ngFor="let unit of sliderUnits" [value]="unit"> {{unit}}</option>
+                </select>
+              </td>
+
+
+            </div>
+
+
+            <div
+              *ngIf="questionTypeList[editquestion.questionTypeId]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Boolean' "
+              class="form-group">
+              <label class="col-form-label" for="recipient-name">inLine Text</label>
+
+              <label class="col-form-label" for="message-text">Inline Text Flag:</label>
+              <app-switch (change)="inlineTextFlag=$event" [(ngModel)]="inlineTextFlag" [labelOff]="inlineTextOff"
+                          [labelOn]="inlineTextOn" name="skip_notification" size="large"></app-switch>
+
+
+              {{inlineTextFlag}}
+              <div *ngIf="!inlineTextFlag">
+                <label class="col-form-label" for="recipient-name">Multi Line Text</label>
+
+                <app-switch (change)="multiLineTextFlag=$event" [(ngModel)]="multiLineTextFlag"
+                            [labelOff]="multilineTextOff" [labelOn]="multilineTextOn" name="skip_notification"
+                            size="large"></app-switch>
+              </div>
+              <tr><label class="btn btn-outline-info">label on
+                <input [(ngModel)]="editquestion.labelOn" name="labelOn" type="text">
+              </label>
+                <label class="btn btn-outline-info">label off
+                  <input [(ngModel)]="editquestion.labelOff" name="labelOff" type="text">
+                </label>
+              </tr>
+              {{inlineText}}
+              <div *ngIf="inlineTextFlag">
+                <tr><input [(ngModel)]="editquestion.inlineAnswer" class="form-control" name="inlineAnswer"
+                           placeholder="answer" type="text"></tr>
+                <tr><input [(ngModel)]="editquestion.inlineQuestion" class="form-control" name="inlineQuestion"
+                           placeholder="Enter Question(InLine)" type="text"></tr>
+
+              </div>
+              <div *ngIf="multiLineTextFlag">
+                <tr><input [(ngModel)]="editquestion.multilineAnswer" class="form-control" name="multilineAnswer"
+                           placeholder="answer" type="text"></tr>
+                <tr><input [(ngModel)]="editquestion.multilineQuestion" class="form-control" name="multilineQuestion"
+                           placeholder="Enter Question(MultiLine)" type="text"></tr>
+
+              </div>
+
+            </div>
+            <div class="form-group">
+              <label class="col-form-label" for="recipient-name">is Dependent</label>
+
+              <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> yes
+                <input (ngModelChange)="change($event)" [(ngModel)]="editquestion.dependentFlag" name="dependentFlag"
+                       type="radio" value="yes">
+              </label>
+              <label class="btn btn-outline-info"><i class="fa fa-check active-visible"></i> no
+                <input (ngModelChange)="change($event)" [(ngModel)]="editquestion.dependentFlag" name="dependentFlag"
+                       type="radio" value="no">
+              </label>
+
+
+            </div>
+            <div *ngIf="editquestion.dependentFlag" class="form-group">
+              <label class="col-form-label" for="recipient-name">Enter Question on which it depends</label>
+              <select (change)="setDependentAns($event)" [(ngModel)]="dependentQuestionId"
+                      class="form-control select2_demo_1" name="dependentQuestionId" style="width: 365px;">
+                <option selected value="Select QT">Select Question</option>
+                <option *ngFor="let question of buildQueSection.questions;let i =index" [value]="editquestion.id">
+                  {{editquestion.questionTitle}}
+                </option>
+              </select>
+
+              <label class="col-form-label" for="recipient-name">Enter Answer</label>
+              <div
+                *ngIf="questionTypeList[editquestion.questionTypeId-1]!=null && questionTypeList[dependentQuestionId-1].questionType ==='Boolean' ">
+
+                <select [(ngModel)]="dependentAns" class="form-control select2_demo_1" name="dependentAns"
+                        style="width: 365px;">
+                  <option selected value="Select Ans">Select Answer</option>
+                  <option *ngFor="let ans of booleanValues;let i =index" [value]="ans"> {{ans}}</option>
+                </select>
+              </div>
+
+              {{nonBooleanAnsFlag}} {{booleanAnsFlag}}
+              <select *ngIf="nonBooleanAnsFlag" [(ngModel)]="dependentAns" class="form-control select2_demo_1"
+                      name="dependentAns" style="width: 365px;">
+                <option selected value="Select Ans">Select Answer</option>
+                <option *ngFor="let ans of dependentAnsList;let i =index" [value]="ans.optionText"> {{ans.optionText}}
+                </option>
+              </select>
+
+
+              <select *ngIf="booleanAnsFlag" [(ngModel)]="dependentAns" class="form-control select2_demo_1"
+                      name="dependentAns" style="width: 365px;">
+                <option selected value="Select Ans">Select Answer</option>
+                <option *ngFor="let ans of booleanValues;let i =index" [value]="ans"> {{ans}}</option>
+              </select>
+
+
+            </div>
+            <div class="form-group">
+              <button (click)="editOptions(rowIndex,editquestion)" class="btn btn-primary" type="button">Add Options
+              </button>
+            </div>
+            <fieldset>
+              <legend>Question Section:</legend>
+              <label class="col-form-label" for="question-name">{{editquestion.questionTitle}}</label>
+              <tr *ngFor="let answer of editquestion.options; let i = index">
+                <td
+                  *ngIf="questionTypeList[editquestion.questionTypeId-1]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Single Select(Radio)' ">
+                  <input name="optionRadio" type="radio" value="editquestion.options[i].optionText"></td> &nbsp;
+                <td
+                  *ngIf="questionTypeList[editquestion.questionTypeId]!=null && questionTypeList[editquestion.questionTypeId-1].questionType==='Single Select(Radio)'">
+                  <input [(ngModel)]="editquestion.options[i].optionText" [value]="editquestion.options[i].optionText"
+                         class="form-control" name="answer{{i}}" name="response" type="text"></td>
+                <td
+                  *ngIf="questionTypeList[editquestion.questionTypeId-1]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Multi Select' ">
+                  <input name="optionCheckbox" type="checkbox" value="editquestion.options[i].optionText"></td> &nbsp;
+                <td
+                  *ngIf="questionTypeList[editquestion.questionTypeId]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Multi Select'">
+                  <input [(ngModel)]="editquestion.options[i].optionText" [value]="editquestion.options[i].optionText"
+                         class="form-control" name="answer{{i}}" name="response" type="text"></td>
+
+
+              </tr>
+              <br/>
+              <td
+                *ngIf="questionTypeList[editquestion.questionTypeId-1]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Single Line' ">
+                <input [(ngModel)]="textRespoonse" class="form-control" name="textRespoonse" type="text"></td>
+              <br/>
+              <td
+                *ngIf="questionTypeList[editquestion.questionTypeId-1]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Multi Line' ">
+                <textarea [(ngModel)]="paragraph" class="form-control" name="paragraph"></textarea></td>
+              <br/>
+
+              <div
+                *ngIf="questionTypeList[editquestion.questionTypeId]!=null && questionTypeList[editquestion.questionTypeId-1].questionType ==='Boolean' ">
+                <app-switch [labelOff]="editquestion.labelOff" [labelOn]="editquestion.labelOn" name="skip_notification"
+                            size="large"></app-switch>
+                <!--- InLIne Text <input name="inlineTextCheck" [(ngModel)]="inlineTextCheck" type="checkbox"> -->
+                <p>The state is {{checked ? 'Yes' : 'No'}}.</p>
+
+              </div>
+
+              <star-rating (click)="selected = index" (mouseout)="hover = -1" (mouseover)="hover = index"
+                           *ngFor="let index of stars" [enableStarFlag]="enableStarFlag" [hover]="hover" [index]="index"
+                           [selected]="selected"></star-rating>
+              {{sliderUnit}}
+              <span *ngIf="enableStarFlag">{{selected}}</span>
+              <slider-comp [enableFlag]="enableFlag" [endValue]="endValue" [sliderUnit]="sliderUnit"
+                           [startValue]="startValue"></slider-comp>
+              <span *ngIf="enableFlag">{{sliders[0].value}}</span>
+              <slider-comp [enableFlag]="true" [endValue]="100" [sliderUnit]="sliderUnit"
+                           [startValue]="10"></slider-comp>
+              <span *ngIf="true">{{sliders[0].value}}</span>
+
+              <!--- <ng5-slider  [(value)]="sliders[0].value"
+                [options]="sliderOption()"></ng5-slider> -->
+
+
+            </fieldset>
+
+            <div class="modal-footer">
+              <button (click)="cancelUpdate()" class="btn btn-secondary" data-dismiss="modal" type="button">Cancel
+              </button>
+              <button (click)="updateQuestion(editquestion)" class="btn btn-primary" data-dismiss="modal" type="button">
+                Update Question
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- edit question ends--->
+
+  <div *ngIf="!previewSurv" class="ibox">
     <div class="ibox-head">
-        <div class="ibox-title"><i>Json Structure</i> </div>
-        <div class="ibox-tools">
-            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-            
-        </div>
+      <div class="ibox-title"><i>Json Structure</i></div>
+      <div class="ibox-tools">
+        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+
+      </div>
 
     </div>
-   
-    <div class="ibox-body">
-      <div class="form-group">
-        <button type="button" class="btn btn-secondary" (click)="questionBuild()" >Generate Json</button>
-      </div>
-      <button class="btn btn-secondary"  type="button" (click)="copy()">Copy To Clipboard</button>
-      <div class="form-group">
-        <label for="message-text" class="col-form-label">Json Text</label>
-        <pre id="jsondata">{{jsonData}}</pre>
 
-      </div>
-      </div>
+
   </div>
 
 
-  
-   
-    <!-- Question listing for Selected Survey Sections -->
-    <div  class="ibox">
-      <div class="ibox-head">
-          <div class="ibox-title">Survey Questions For  Sections  <i>{{buildQueSection.secTitle}}</i>  </div>
-          <div class="ibox-tools">
-              <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-              
-          </div>
+  <!-- Question listing for Selected Survey Sections -->
+  <div *ngIf="!previewSurv" class="ibox">
+    <div class="ibox-head">
+      <div class="ibox-title">Survey Questions For Sections <i>{{buildQueSection.secTitle}}</i></div>
+      <div class="ibox-tools">
+        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+
       </div>
-      <div class="ibox-body">
-          <div class="table-responsive">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th width="50px"></th>
-                         <th>Survey Section Title</th>
-                         <th>Question Title</th>
-                         <th>Question Type</th>
-                          <th>Created By</th>
-                          <th>Created On</th>
-                          <th>Actions</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let question of buildQueSection.questions;let i =index;">
-                          <td>
-                              <label class="ui-checkbox">
-                                  <input type="checkbox">
-                                  <span class="input-span"></span>
-                              </label>
-                          </td>
-                          <td>{{buildQueSection.secTitle}}</td>
-                          <td>{{question.questionTitle}}</td>
-                          <td>{{question.questionTypeId}}</td>
-                          <td>{{buildsurvey.createdBy}}</td>
-                          <td>02/08/2017</td>
-                          <td>
-                              
-                              <button class="btn btn-primary btn-xs m-r-5" data-toggle="tooltip" (click)="addQuestions(i)" data-original-title="Buid"><i class="fa fa-question font-14"></i></button>
-                              <button class="btn btn-primary btn-xs m-r-5" data-toggle="modal" data-target="#editSectionModal"  (click)="sectionEdit(i)" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
-                              <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></button>
-                          </td>
-                      </tr>
-                     
-                  </tbody>
-              </table>
-          </div>
+    </div>
+    <div *ngIf="!previewSurv" class="ibox-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th width="50px"></th>
+            <th>Survey Section Title</th>
+            <th>Question Title</th>
+            <th>Question Type</th>
+            <th>Created By</th>
+            <th>Created On</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let question of buildQueSection.questions;let i =index;">
+            <td>
+              <label class="ui-checkbox">
+                <input type="checkbox">
+                <span class="input-span"></span>
+              </label>
+            </td>
+            <td>{{buildQueSection.secTitle}}</td>
+            <td>{{question.questionTitle}}</td>
+            <td>{{getQuestionType(question.questionTypeId)}}</td>
+            <td>{{loggedInUser}}</td>
+            <td>{{ now | date: 'dd/MM/yyyy' }}</td>
+            <td>
+
+              <button class="btn btn-primary btn-xs m-r-5" data-toggle="tooltip" (click)="addQuestions(i)"
+                      data-original-title="Buid"><i class="fa fa-question font-14"></i></button>
+              <button (click)="questionEdit(i)" class="btn btn-primary btn-xs m-r-5" data-original-title="Edit"
+                      data-target="#questionSectionModal" data-toggle="modal"><i class="fa fa-pencil font-14"></i>
+              </button>
+              <button (click)="deleteQuestions(i)" class="btn btn-danger btn-xs" data-original-title="Delete"
+                      data-toggle="tooltip"><i class="fa fa-trash font-14"></i></button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
       </div>
+    </div>
+
   </div>
+
+  <div class="ibox-body">
+    <div class="form-group">
+      <button (click)="postSurvey()" class="btn btn-primary" type="button">Submit Survey</button>
+
+    </div>
+
+  </div>
+  <div *ngIf="!previewSurv" class="ibox-body">
+    <div class="form-group">
+      <button (click)="questionBuild()" class="btn btn-secondary" type="button">Generate Json</button>
+    </div>
+    <button (click)="copy()" class="btn btn-secondary" type="button">Copy To Clipboard</button>
+    <div class="form-group">
+      <label class="col-form-label" for="message-text">Json Text</label>
+      <pre id="jsondata">{{jsonData}}</pre>
+
+    </div>
+  </div>
+
+
+  <div *ngIf="previewSurv">
+    <survey-play [survey]="survey"></survey-play>
+
+  </div>
+
+
   <!-- Ends section listing -->
 
 
   <!-- <div  class="form-group" style="margin-left: 15%;" *ngFor="let slider of sliders">
-    <ng5-slider [(value)]="slider.value" 
+    <ng5-slider [(value)]="slider.value"
      [options]="sliderOptions(slider)"></ng5-slider>
 
        <ng5-slider [(value)]="slider.value" [(highValue)]="slider.highValue" [options]="sliderOptions(slider)"></ng5-slider>
   </div>   -->
 
-<!-- Add question Ends-->
-        
+  <!-- Add question Ends-->

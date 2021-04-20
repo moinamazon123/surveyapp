@@ -1,8 +1,9 @@
-export class OptionGroup{
-public id:number;
+exportclassOptionGroup {
+  publicid:number;
 public optionText:string;
 public optionRating:number;
 public sliderValue:number;
 public optionBoolean:boolean;
+selected: boolean =false;
 
 }

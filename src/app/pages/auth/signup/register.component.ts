@@ -20,18 +20,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
   signUpGroup: FormGroup;
   roles =['ROLE_ADMIN','ROLE_USER'];
   constructor(private loginService:LoginService,private fb: FormBuilder)  { 
-
-    this.signUpGroup = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['',Validators.minLength(10)],
-      password: ['',[Validators.minLength(8) , Validators.required]],
-      confirmPassword: ['', Validators.required],
-      username :['' ,Validators.required],
-      city:[],
-      name:[],
-      role:['',Validators.required ],
-      agree :['' ,Validators.required]
-    },
+    let formObj = new Object();
+    formObj['email']=['', [Validators.required, Validators.email]]
+    formObj['phone']=['',Validators.minLength(10)]
+    formObj['password']=['',[Validators.minLength(8) , Validators.required]];
+    formObj['confirmPassword']= ['', Validators.required];
+    formObj['username']=['' ,Validators.required]
+    formObj['city']=[]
+    formObj['role']=['',Validators.required ]
+    formObj['agree']=['' ,Validators.required]
+    this.signUpGroup = this.fb.group(formObj,
     //Second Parameter
      {
        validator: passwordMatch
@@ -62,9 +60,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   register(){
    // this.initReg();
-     let roles=[];
-    roles.push(this.user.role);
-    this.user.role = roles; 
+    /**  let roles=[];
+    roles.push(this.user.roles);
+    this.user.roles = roles; **/
     console.log(this.user);
 this.loginService.signup(this.user).subscribe(res=>{
 

@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 export class AppSidebar {
   loggdInUser:string;
   ngOnInit() {
-    this.loggdInUser = sessionStorage.getItem("username");
+    this.loggdInUser = localStorage.getItem("username");
 
   }
 }

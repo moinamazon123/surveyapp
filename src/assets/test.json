@@ -1,0 +1,667 @@
+
+{
+	"id":1,
+	"surveyTitle": "General Survey",
+	"instruction": "General Survey Instruction",
+	"placeholder": "General survey PH",
+	"punchline": "Cool",
+	"introText" : "Survey Description",
+	"comment":null,
+	"surveyLogoUrl":null,
+	"createdBy":5,
+	"isArchiveFlag":false,
+	"archiveDate":null,
+	"audit":null,
+	"surveySections": [
+	  {
+		"secTitle": "One section",
+		"id": 0,
+		"questions": [
+		  {
+			"id": 1,
+		   
+			"required":true,
+			"questionTitle": "What is your age",
+		  
+			
+		 
+		  "questionType": {
+						  "id": 1,
+						  "question_type": "Single Select(Radio)"
+					  },
+					  "sliderQuestion": {
+						  "sliderUnit": 0,
+						  "endValue": null,
+						  "startValue": null
+					  },
+					  "dependentQuestion": {
+						  "dependentOnqId": 0,
+						  "dependentFlag": false,
+						  "dependentAnswer": null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						  "multilineQuestion": null,
+						  "labelOn": null,
+						  "labelOff": null
+					  },
+			"isVisibility":false,
+		   
+			"isRatingBar":false,
+			"isBoolean":false,
+			  "numericResponse":0,
+			"textResponse":"",
+			"booleanResponse":false,
+			"isSlider": false,
+			
+			"options":  [
+		{
+		  "id": 0,
+		  "optionText": "25<age && age>18",
+		  "optionRating": 0,
+		  "optionBoolean": false,
+		  "sliderValue": 0
+		},
+		{
+		  "id": 0,
+		  "optionText": "age>=30",
+		  "optionRating": 0,
+		  "optionBoolean": false,
+		  "sliderValue": 0
+		},
+		{
+		  "id": 0,
+		  "optionText": "60<age && age>30",
+		  "optionRating": 0,
+		  "optionBoolean": false,
+		  "sliderValue": 0
+		  }
+		]
+		  },
+		  {
+			"id": 2,
+			"required":true,
+		   
+			"questionTitle": "What is your gender",
+			
+			  
+		  "questionType": {
+						  "id": 1,
+						  "question_type": "Boolean"
+					  },
+					  "sliderQuestion": {
+						  "sliderUnit": 0,
+						  "endValue": null,
+						  "startValue": null
+					  },
+					  "dependentQuestion": {
+						  "dependentOnqId": 0,
+						  "dependentFlag": false,
+						  "dependentAnswer": null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						  "multilineQuestion": null,
+						  "labelOn": "Male",
+						  "labelOff": "Female"
+					  },
+		   
+		  
+			"isVisibility":false,
+			  "numericResponse":0,
+			  "booleanResponse":false,
+			"paragraph":null,
+			"isRatingBar":false,
+			"isBoolean":true,
+			"textResponse":"",
+		   
+			"isSlider": false,
+		   
+			"options": [
+			  
+			]
+		  },
+		  {
+			"id": 3,
+			"required":false,
+		   
+			
+				
+		  "questionType": {
+						  "id": 6,
+						  "question_type": "Slider"
+					  },
+					  "sliderQuestion": {
+						   "sliderUnit": 11,
+					   "endValue": 180,
+			"startValue": 10,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						  "dependentOnqId": 2,
+						  "dependentFlag": true,
+						  "dependentAnswer": "Female"
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						  "multilineQuestion": null,
+						  "labelOn": null,
+						  "labelOff": null
+					  },
+		   
+			"questionTitle": "Maternity leave",
+			
+		   
+		  
+		   
+			"isVisibility":true,
+		   
+			"paragraph":null,
+			  "booleanResponse":false,
+				"numericResponse":0,
+			"isRatingBar":false,
+			"isBoolean":false,
+			"textResponse":"",
+		 
+			"isSlider": false,
+		   
+			"options": [
+			 
+			]
+		  },
+		  {
+			"id": 4,
+			"required":false,
+			"dependentOnqId": 1,
+			"questionTitle": "Are you married",
+			
+			"questionType": {
+						  "id": 5,
+						  "question_type": "Boolean"
+					  },
+				"sliderQuestion": {
+						   "sliderUnit": 0,
+					   "endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						  "dependentOnqId": 1,
+					  "dependentFlag": true,
+						"dependentAnswer":"age>=30"
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": true,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": "yes",
+						  "multilineAnswer": null,
+						"multilineQuestion":"any recommodation you have",
+						   "inlineQuestion":"How many Kids you have",
+				   "labelOn":"Yes",
+			"labelOff":"No"
+					  },
+		   
+		 
+		 
+		  
+		  
+			"isVisibility":true,
+		   
+			  "booleanResponse":false,
+				"numericResponse":0,
+			"paragraph":null,
+			"isRatingBar":false,
+			"isBoolean":true,
+			"textResponse":"",
+		   
+			"isSlider": false,
+		   
+			"options": [ ]
+		  },
+		  {
+			"id": 5, 
+			 "required":true,
+		   
+			"questionTitle": "Have you travelled to abroad?",
+			
+			 "questionType": {
+						  "id": 5,
+						  "question_type": "Boolean"
+					  },
+				"sliderQuestion": {
+						   "sliderUnit": 0,
+					   "endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						  "dependentOnqId": 0,
+					  "dependentFlag": false,
+						"dependentAnswer":null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						"multilineQuestion":null,
+						   "inlineQuestion":null,
+				   "labelOn":"Yes",
+			"labelOff":"No"
+					  },
+		   
+		 
+			
+		   
+		   
+		  
+			"isVisibility":false,
+		   
+			"paragraph":null,
+			"isRatingBar":false,
+			"isBoolean":true,
+			  "booleanResponse":false,
+				"numericResponse":0,
+			"textResponse":"",
+		   
+			"isSlider": false,
+			
+			"options": [ ]
+		  },
+		  {
+			"id": 6, 
+			 "required":false,
+			"dependentOnqId": 5,
+			"questionTitle": "Which country",
+			
+			  "questionType": {
+						  "id": 3,
+					   "question_type":"Single Line"
+					  },
+				"sliderQuestion": {
+						   "sliderUnit": 0,
+					   "endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						  "dependentOnqId": 5,
+					  "dependentFlag": true,
+					   "dependentAnswer":"Yes"
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": true,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						"multilineQuestion":null,
+						   "inlineQuestion":null,
+				   "labelOn":null,
+			"labelOff":null
+					  },
+		   
+		   
+		   
+		  
+			
+			"isVisibility":true,
+		   
+			"paragraph":null,
+			"isRatingBar":false,
+			"isBoolean":false,
+			  "booleanResponse":false,
+				"numericResponse":0,
+			"textResponse":"",
+		   
+			"isSlider": false,
+			
+			"options": [ ]
+		  }
+		]
+	  },
+	  {
+		"secTitle": "second section",
+		"id": 1,
+		"questions": [
+		  {
+			"id": 1,
+			"required":false,
+		   
+		   
+			"questionTitle": "What is your package",
+			
+			
+			
+			  "questionType": {
+					   "id":6,
+			 "question_type":"Slider"
+					  },
+				"sliderQuestion": {
+						"sliderUnit": 9,
+				"endValue": 12,
+			"startValue": 2,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+					   "dependentOnqId": 2,
+					  "dependentFlag": true,
+					   "dependentAnswer":"Yes"
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": true,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						"multilineQuestion":null,
+						   "inlineQuestion":null,
+				   "labelOn":null,
+			"labelOff":null
+					  },
+		   
+			
+			
+		   
+		  
+			"isVisibility":true,
+			
+			  "booleanResponse":false,
+				"numericResponse":0,
+			"multilineResponse":null,
+			"paragraph":null,
+		   
+			"isBoolean":false,
+			"textResponse":"",
+		  
+			"isSlider": true,
+		  
+		   
+			"isRatingBar": false,
+			"options": []
+		  },
+		  {
+			"id": 2,
+			"required":true,
+		  
+		  
+			"questionTitle": "Are you a salaried professional",
+			
+			
+			
+			  "questionType": {
+					"id":5,
+			 "question_type":"Boolean"
+					  },
+				"sliderQuestion": {
+						"sliderUnit": 0,
+				"endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						"dependentOnqId": 0,
+					  "dependentFlag": false,
+					   "dependentAnswer":null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						"multilineQuestion":null,
+						   "inlineQuestion":null,
+			  "labelOn":"Yes",
+			"labelOff":"No"
+					  },
+			
+			
+			
+		   
+			"isVisibility":false,
+			
+			"paragraph":null,
+			  "booleanResponse":false,
+			  "numericResponse":0,
+			"isBoolean":true,
+			"textResponse":"",
+		  
+			"isSlider": false,
+		   
+			
+			"isRatingBar": false,
+			
+			"options": [
+			 
+			]
+		  },
+		  {
+			"id": 3,
+			"required":true,
+		   
+		   
+			"questionTitle": "Are you Satishfied",
+			
+			
+			
+			  "questionType": {
+					"id":5,
+			 "question_type":"Boolean"
+					  },
+				"sliderQuestion": {
+						"sliderUnit": 0,
+				"endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						"dependentOnqId": 0,
+					  "dependentFlag": false,
+					   "dependentAnswer":null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": true,
+						  "isInlineText": true,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": "no",
+						"multilineQuestion":"Any suggestion",
+						   "inlineQuestion":null,
+		   "labelOn":"Agree",
+			"labelOff":"Disagree"
+					  },
+			
+			
+			
+	  
+			"isVisibility":false,
+			
+			"paragraph":null,
+			"booleanResponse":false,
+			"isBoolean":true,
+			"textResponse":"",
+		   "numericResponse":0,
+			"isSlider": false,
+		   
+			"isRatingBar": false,
+			
+			"options": [
+			  {
+				"id": 0,
+				"optionText": null,
+				"optionRating": 0,
+				"optionBoolean": false,
+				"sliderValue": 0
+			  }
+			]
+		  },
+		  {
+			"id": 4,
+			"required":true,
+		  
+		   
+			"questionTitle": "Rate the Qulaity",
+			
+			
+			  "questionType": {
+					"id":7,
+			 "question_type":"StarRating"
+					  },
+				"sliderQuestion": {
+						"sliderUnit": 0,
+				"endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						"dependentOnqId": 0,
+					  "dependentFlag": false,
+					   "dependentAnswer":null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						"multilineQuestion":null,
+						   "inlineQuestion":null,
+		   "labelOn":"Agree",
+			"labelOff":"Disagree"
+					  },
+			
+			
+			 "numericResponse":0,
+		  
+			"paragraph":null,
+			"booleanResponse":false,
+			"isBoolean":false,
+			 
+			"textResponse":"",
+		  
+			"isSlider": false,
+		   
+	   
+			"isRatingBar": true,
+			
+			"options": [
+			  
+			]
+		  },
+		  {
+			"id": 5,
+			"required":true,
+	   
+		  
+			"questionTitle": "two options",
+		  
+			
+			
+			  "questionType": {
+					 "id":2,
+			 "question_type":"Multi Select"
+					  },
+				"sliderQuestion": {
+						"sliderUnit": 0,
+				"endValue": 0,
+			"startValue": 0,
+			"interval": 0
+					  },
+					  "dependentQuestion": {
+						"dependentOnqId": 0,
+					  "dependentFlag": false,
+					   "dependentAnswer":null
+					  },
+					  "booleanQuestion": {
+						  "isMultilineText": false,
+						  "isInlineText": false,
+						  "inlineResponse": null,
+						  "multilineResponse": null,
+						  "inlineAnswer": null,
+						  "multilineAnswer": null,
+						"multilineQuestion":null,
+						   "inlineQuestion":null,
+			 "labelOn":null,
+			"labelOff":null
+					  },
+			
+			
+			
+			  "numericResponse":0,
+			"sliderUnit": null,
+			"isVisibility":false,
+		   
+			"paragraph":null,
+			"booleanResponse":false,
+			"isBoolean":false,
+	   
+			"textResponse":"",
+		  
+			"isSlider": false,
+		   
+			"isRatingBar": false,
+			
+			"options": [
+			   {
+				"id": 0,
+				"optionText": "A",
+				"optionRating": 0,
+				"optionBoolean": false,
+				"sliderValue": 0
+			  },
+			  {
+				"id": 0,
+				"optionText": "B",
+				"optionRating": 0,
+				"optionBoolean": false,
+				"sliderValue": 0
+			  },
+			  {
+				"id": 0,
+				"optionText": "C",
+				"optionRating": 0,
+				"optionBoolean": false,
+				"sliderValue": 0
+			  },{
+				"id": 0,
+				"optionText": "D",
+				"optionRating": 0,
+				"optionBoolean": false,
+				"sliderValue": 0
+			  }
+			]
+		  }
+  
+		]
+	  }
+  
+  ]
+		
+	  }
+	
+  

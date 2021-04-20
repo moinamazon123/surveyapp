@@ -177,4 +177,21 @@
   background: orange;
 }
 
+.ng5-slider {
+  display: inline-block;
+  position: relative;
+  height: 4px;
+  width: 800% !important; 
+  margin: 35px 0 15px;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+}
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+
+
+

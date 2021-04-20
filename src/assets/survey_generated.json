@@ -1,0 +1,70 @@
+{
+	"surveyTitle": "G Survey",
+	"id":1,
+	"instruction": "",
+	"placeholder": "",
+	"punchline": "",
+	"surveySections": [
+		{
+			"secTitle": "one section",
+			"id": 0,
+			"questions": [
+				{
+					"id": 1,
+					"questionTitle": "Rate",
+					"required": true,
+					"textResponse": "",
+					"paragraph": null,
+					"isSlider": false,
+					"isBoolean": false,
+					"isRatingBar": true,
+					"numericResponse": 0,
+					"questionType": {
+						"id": 7,
+						"question_type": "StarRating"
+					},
+					"booleanResponse": false,
+					"sliderQuestion": {
+						"sliderUnit": 0,
+						"endValue": null,
+						"startValue": null
+					},
+					"options": [],
+					"dependentQuestion": {
+						"dependentOnqId": 0,
+						"dependentFlag": false,
+						"dependentAnswer": null
+					}
+				},
+				{
+					"id": 2,
+					"questionTitle": "improvement",
+					"required": false,
+					"textResponse": "",
+					"paragraph": null,
+					"isSlider": false,
+					"isBoolean": false,
+					"isRatingBar": false,
+					"numericResponse": 0,
+					"questionType": {
+						"id": 4,
+						"question_type": "Multi Line"
+					},
+					"booleanResponse": false,
+					"sliderQuestion": {
+						"sliderUnit": 0,
+						"endValue": null,
+						"startValue": null
+					},
+					"options": [],
+					"dependentQuestion": {
+						"dependentOnqId": 1,
+						"dependentFlag": true,
+						"dependentAnswer": "2"
+					}
+				}
+			]
+		}
+	],
+	"createdBy": 2
+}

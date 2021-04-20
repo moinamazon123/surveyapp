@@ -2,3 +2,9 @@
     .custom-slider .ng5-slider .ng5-slider-selection {
         background: #DF495B;
       }
+      ::ng-deep {
+        .custom-slider .ng5-slider .ng5-slider-selection {
+            background: #DF495B;
+            width:1000%;
+          }
+    }

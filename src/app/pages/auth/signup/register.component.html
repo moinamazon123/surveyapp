@@ -10,7 +10,7 @@
        </div>
        <div class="alert alert-success" *ngIf="succMsg!=null">
         {{succMsg}}
-        
+
                </div>
        <div class="form-group">
         <button class="btn btn-info btn-block"  (click)="initReg()" type="submit">Test</button>
@@ -32,25 +32,26 @@
 
 
         <div class="form-group">
-            <div class="input-group">
-                <div class="input-group-addon"><i class="fa fa-shield"></i></div>
-                <select formControlName="role" id="role" [(ngModel)]="user.role" name="role"  style="width: 365px;" class="form-control" [(ngClass)]="select2_demo_1">
-                    <option selected value="Select Role">Register AS </option>
-            <option  [value]="role"    *ngFor="let role of roles"> {{role}}</option>
-                </select>
-            </div>
-</div> 
+          <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-shield"></i></div>
+            <select [(ngModel)]="user.role" class="form-control" formControlName="role" id="role" name="role"
+                    style="width: 365px;">
+              <option selected value="Select Role">Register AS</option>
+              <option [value]="role" *ngFor="let role of roles"> {{role}}</option>
+            </select>
+          </div>
+        </div>
       <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
                     <input class="form-control"  id="name" formControlName="name"  type="text" [(ngModel)]="user.name" name="name" placeholder="First Name" >
                     </div>
       </div>
-              
-   
-        <div class="form-group">
+
+
+      <div class="form-group">
             <div class="input-group">
-                <div class="input-group-addon"><i class="fa fa-envelope"></i></div> 
+              <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
             <input class="form-control" type="email" id="email" formControlName="email"  name="email" [(ngModel)]="user.email" placeholder="exmaple@domain.com" autocomplete="off">
             </div>
         </div>

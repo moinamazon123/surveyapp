@@ -58,27 +58,38 @@ export class AuthComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loginService.login(this.user.username,this.user.password).subscribe(res=>{
       
         //console.log(JSON.parse(res['_body']).accessToken);
-        console.log(JSON.parse(res['_body'])['accessToken']);
+        //console.log(JSON.parse(res['_body'])['accessToken']);
       
-        localStorage.setItem("token", JSON.parse(res['_body'])['accessToken'] );
+       // localStorage.setItem("token", JSON.parse(res['_body'])['accessToken'] );
         this.isLoginProgress = false;
         this.errMsg = null;
-        this.loginService.validateToken(JSON.parse(res['_body'])['accessToken']).subscribe( res=>{
+       // this.loginService.validateToken(JSON.parse(res['_body'])['accessToken']).subscribe( res=>{
           console.log(res);
-         
-          if(res['_body']){
+          
+          if(res['_body']==='success'){
            // sessionStorage.setItem("username",this.user.username);
-           sessionStorage.setItem("username",this.user.username);
+           // this.loginService.getUserDetails(this.user.username).subscribe(res =>{
+            //  console.log(res.json().id);
+           //   localStorage.setItem("username",res.json().username);
+            //  localStorage.setItem("password",this.user.password);
+            //  localStorage.setItem("userid",res.json().id);
+              this.router.navigate(['/index']);
+
+            }else {
+
+this.router.navigate(['/auth']);
+            }
+
+            
+           
+          
           //  this.router.navigate['/index'];
             this.router.navigate(['/index']);//.then(s =>location.reload());;
           }
      
-         } , error => {
-          
-         })
-      
+        
          
-    } , error => {
+     , error => {
       this.isLoginProgress = false;
       this.errMsg = error['_body'];
       console.log(error);

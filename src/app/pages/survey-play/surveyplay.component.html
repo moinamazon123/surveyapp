@@ -1,49 +1,259 @@
-<div class="container">
+<div *ngIf="ermsg!=null" class="alert alert-danger">{{ermsg}}</div>
+<div class="row" style="margin-left: 5%;">
+  <div class="col-md-6">
+    <h3>Survey Application</h3>
 
-    <div id="stepper1" class="bs-stepper">
-      <div class="bs-stepper-header">
-        <div class="step" data-target="#test-l-1">
-          <button class="step-trigger">
-            <span class="bs-stepper-circle">1</span>
-            <span class="bs-stepper-label">Email</span>
-          </button>
-        </div>
-        <div class="line"></div>
-        <div class="step" data-target="#test-l-2">
-          <button class="step-trigger">
-            <span class="bs-stepper-circle">2</span>
-            <span class="bs-stepper-label">Password</span>
-          </button>
-        </div>
-        <div class="line"></div>
-        <div class="step" data-target="#test-l-3">
-          <button class="step-trigger">
-            <span class="bs-stepper-circle">3</span>
-            <span class="bs-stepper-label">Validate</span>
-          </button>
-        </div>
+  </div>
+  <!--  <div class="col-md-6 text-sm-right">
+     Select Quiz:
+     <select [(ngModel)]="quizName" (change)="loadQuiz(quizName)" name="vdz">
+         <option *ngFor="let quiz of quizes" [value]="quiz.id">{{quiz?.name}}</option>
+       </select>
+   </div> -->
+</div>
+
+<img [src]="survey!=null?survey.surveyLogoUrl:''" height="6%" style="margin-left: 10%;" width="6%">
+<div id="quiz" style="margin-left: 5%;">
+  <h1 class="text-sm-center">{{survey!=null?survey.surveyTitle:''}}</h1>
+  <h5 class="text-sm-center"> {{survey!=null?survey.punchline:''}}</h5>
+
+  <hr/>
+  {{mode}}
+  <div *ngIf="mode=='result'" class="result">
+    <h2>Survey Result</h2>
+    <h3>Thanks For Participation the Survey {{survey!=undefined?survey.surveyTitle:''}}</h3>
+    {{jsonResponse}}
+
+    <h4 (click)="mode=survey" class="alert alert-info text-sm-center">You may close this window now.</h4>
+  </div>
+
+
+  <div *ngIf="mode=='survey' && survey">
+    <div *ngFor="let section of sectionList;let sectionPage = index">
+      <div class="badge badge-info">Section {{sectionPage + 1}} of {{sectionList.length}}.</div>
+      <h2 class="alert alert-success">{{sectionPage + 1}}. <span [innerHTML]="section.secTitle"></span> of
+        {{survey.surveyTitle}} </h2>
+
+      <div *ngIf="mode!='result'">
+        <button (click)="mode = 'survey'" class="btn btn-default">Survey</button>
+        <button (click)="goToSection(sectionPage+1)" class="btn btn-default"> Next Section</button>
+
+        <button (click)="onSurveySubmit();" [disabled]="mandatoryQuesList.length>0" class="btn btn-default">Submit
+          Survey
+        </button>
       </div>
-      <div class="bs-stepper-content">
-        <form (ngSubmit)="onSubmit()">
-          <div id="test-l-1" class="content">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" />
+      <div *ngIf="mandatoryQuesList.length>0" class="alert alert-danger">One of required field is missing</div>
+
+      <hr/>
+
+
+      <div *ngFor="let question of section.questions;let questionPage = index">
+
+        <div
+          *ngIf="question.dependentQuestion.dependentFlag && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer):''.includes(question.dependentQuestion.dependentAnswer)) "
+          class="badge badge-info">Question {{questionPage + 1}} of {{section.questions.length}}.
+        </div>
+        <div *ngIf="!question.dependentQuestion.dependentFlag" class="badge badge-info">Question {{questionPage + 1}} of
+          {{section.questions.length}}.
+        </div>
+
+        <!--If  <b>{{question.dependentQuestion.dependentFlag}}</b> is true and dependent question answer <b>{{question.dependentQuestion.dependentOnqId!=0?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse:"normalq"}}</b>  matches with <b>{{question.dependentQuestion.dependentAnswer}}</b>  -->
+        <h4
+          *ngIf="question.dependentQuestion.dependentFlag && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer):''.includes(question.dependentQuestion.dependentAnswer))">
+          {{questionPage + 1}}. <span
+          *ngIf="question.dependentQuestion.dependentFlag && section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer) "
+          [innerHTML]="question.questionTitle"></span></h4>
+        <h4 *ngIf="!question.dependentQuestion.dependentFlag">{{questionPage + 1}}. <span
+          *ngIf="!question.dependentQuestion.dependentFlag" [innerHTML]="question.questionTitle"></span></h4>
+        <!-- {{questionTypeList[question.questionTypeId].questionTitle}} -->
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='Slider'">
+
+          <!--- <slider-comp  [sliderValue]="question.sliderValue" [startValue]="question.startValue" [sliderUnit]="question.sliderUnit" [endValue]="question.endValue" [enableFlag]="true" ></slider-comp> -->
+          <div
+            *ngIf="question.dependentQuestion.dependentFlag && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer):''.includes(question.dependentQuestion.dependentAnswer)) ">
+            <ng5-slider (mouseup)="pushResponse(section,question)" [(value)]="originalNumRes"
+                        [options]="sliderOption(question)"></ng5-slider>
+            You have selected : {{question.numericResponse}}
+          </div>
+          <div *ngIf="!question.dependentQuestion.dependentFlag">
+            <ng5-slider (mouseup)="pushResponse(section,question)" [(value)]="originalNumRes"
+                        [options]="sliderOption(question)"></ng5-slider>
+            You have selected : {{question.numericResponse}}
+          </div>
+        </div>
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='Single Select(Radio)'" class="row text-left options">
+
+          <div *ngFor="let option of question.options;let opindex=index" class="col-md-6">
+            <div *ngIf="question.dependentQuestion.dependentFlag
+            && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?
+            section.questions[question.dependentQuestion.dependentOnqId-1].
+            textResponse.includes(question.dependentQuestion.dependentAnswer)
+            :''.includes(question.dependentQuestion.dependentAnswer))">
+              <label [attr.for]="option.id" class="">
+                <input (change)="pushResponse(section,question)" [(ngModel)]="question.textResponse" [id]="question.id"
+                       [name]="question.id" [value]="option.optionText" type="radio"/>
+                {{option.optionText}}
+              </label>
             </div>
-            <button (click)="next()" class="btn btn-primary">Next</button>
-          </div>
-          <div id="test-l-2" class="content">
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+
+            <div *ngIf="!question.dependentQuestion.dependentFlag
+           ">
+              <label [attr.for]="option.id" class="">
+                <input (change)="pushResponse(section,question)" [(ngModel)]="question.textResponse" [id]="question.id"
+                       [name]="question.id" [value]="option.optionText" type="radio"/>
+                {{option.optionText}}
+              </label>
             </div>
-            <button (click)="next()" class="btn btn-primary">Next</button>
+
           </div>
-          <div id="test-l-3" class="content text-center">
-            <button type="submit" class="btn btn-primary mt-5">Submit</button>
+        </div>
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='Multi Select'" class="row text-left options">
+          <div *ngFor="let option of question.options;let i=index" class="col-md-6">
+            <div class="option">
+              <label [attr.for]="option.id" class="">
+                <input (change)="pushMultiResponse(section,question,option.optionText,$event)" [name]="i"
+                       type="checkbox"/>
+                {{option.optionText}}
+              </label>
+            </div>
           </div>
-        </form>
+
+          <!--   <app-multi-select-dropdown
+             [list]="list"
+             (shareCheckedList)="shareCheckedList($event)"
+             (shareIndividualCheckedList)="shareIndividualCheckedList($event)">
+            </app-multi-select-dropdown> -->
+        </div>
+
+
+        {{getQuestionType(question.questionTypeId)}}
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='StarRating'" class="row text-left options">
+          <star-rating (click)="selectedRating = index;pushResponse(section,question)" (mouseout)="hover = -1"
+                       (mouseover)="hover = index;" *ngFor="let index of stars" [enableStarFlag]="question.isRatingBar"
+                       [hover]="hover" [index]="index"
+                       [selected]="selectedRating"></star-rating>
+          You have selected : {{selectedRating}}
+        </div>
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='Boolean' ">
+
+          <div
+            *ngIf="question.dependentQuestion.dependentFlag && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer):'ok'.includes(question.dependentQuestion.dependentAnswer)) ">
+            <app-switch (click)="setBooleanValue(section,question)" [(ngModel)]="question.booleanResponse"
+                        [labelOff]="question.booleanQuestion.labelOff" [labelOn]="question.booleanQuestion.labelOn"
+                        name="skip_notification" size="large"></app-switch>
+
+          </div>
+          <div *ngIf="!question.dependentQuestion.dependentFlag">
+            <app-switch (click)="setBooleanValue(section,question)" [(ngModel)]="question.booleanResponse"
+                        [labelOff]="question.booleanQuestion.labelOff" [labelOn]="question.booleanQuestion.labelOn"
+                        name="skip_notification" size="large"></app-switch>
+
+          </div>
+
+
+          <!-- <div *ngIf="question.booleanQuestion.isMultilineText && !question.dependentQuestion.dependentFlag">
+             <app-switch [labelOn]="question.booleanQuestion.labelOn" [labelOff]="question.booleanQuestion.labelOff" size="large" name="skip_notification" (click)="setBooleanValue(section,question)"  [(ngModel)]="question.booleanResponse"></app-switch>
+           </div>
+           <div *ngIf="!question.booleanQuestion.isMultilineText  && !question.dependentQuestion.dependentFlag">
+
+
+               <app-switch [labelOn]="question.booleanQuestion.labelOn" [labelOff]="question.booleanQuestion.labelOff" size="large" name="skip_notification" (click)="setBooleanValue(section,question)"  [(ngModel)]="question.booleanResponse"></app-switch>
+             </div> -->
+
+          <p>Selected: {{question.booleanResponse}}</p>
+
+          <div *ngIf="question.booleanQuestion.isMultilineText && question.multiLineFlag">
+
+
+            <textarea (change)="pushResponse(section,question)" [(ngModel)]="question.multilineResponse"
+                      placeholder="Reason for unsatishfication"></textarea>
+          </div>
+
+          <div
+            *ngIf="question.booleanQuestion.isInlineText && question.booleanQuestion.inlineAnswer === question.textResponse "
+            class="row text-left options">
+            <input [(ngModel)]="question.inlineResponse" [placeholder]="question.booleanQuestion.inlineQuestion"
+                   class="form-control" class="form-control" type="text">
+          </div>
+
+        </div>
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='Single Line'" class="row text-left options">
+
+          <div
+            *ngIf="question.dependentQuestion.dependentFlag && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer):'ok'.includes(question.dependentQuestion.dependentAnswer)) ">
+            <input (change)="pushResponse(section,question)" [(ngModel)]="question.textResponse"
+                   [placeholder]="question.questionTitle" class="form-control " type="text">
+          </div>
+
+          <div *ngIf="!question.dependentQuestion.dependentFlag">
+            <input (change)="pushResponse(section,question)" [(ngModel)]="question.textResponse"
+                   [placeholder]="question.questionTitle" class="form-control " type="text">
+          </div>
+        </div>
+
+        <div *ngIf="getQuestionType(question.questionTypeId) ==='Multi Line'" class="row text-left options">
+
+          <div *ngIf="getQuestionType(section.questions[question.dependentQuestion.dependentOnqId-1]!=null?
+  section.questions[question.dependentQuestion.dependentOnqId-1].questionTypeId:section.questions[0].questionTypeId) ==='StarRating' || getQuestionType(section.questions[question.dependentQuestion.dependentOnqId-1].questionTypeId) ==='Slider'">
+            <div
+              *ngIf="question.dependentQuestion.dependentFlag && section.questions[question.dependentQuestion.dependentOnqId-1].numericResponse===getNumber(question.dependentQuestion.dependentAnswer)">
+              <input (change)="pushResponse(section,question)" [(ngModel)]="question.paragraph"
+                     [placeholder]="question.questionTitle" class="form-control " type="text">
+            </div>
+          </div>
+          <div
+            *ngIf="getQuestionType(section.questions[question.dependentQuestion.dependentOnqId-1].questionTypeId) !=='StarRating' || getQuestionType(section.questions[question.dependentQuestion.dependentOnqId-1].questionTypeId) !=='Slider'">
+            <div
+              *ngIf="question.dependentQuestion.dependentFlag && (section.questions[question.dependentQuestion.dependentOnqId-1].textResponse!=null?section.questions[question.dependentQuestion.dependentOnqId-1].textResponse.includes(question.dependentQuestion.dependentAnswer):'ok'.includes(question.dependentQuestion.dependentAnswer))">
+              <input (change)="pushResponse(section,question)" [(ngModel)]="question.paragraph"
+                     [placeholder]="question.questionTitle" class="form-control " type="text">
+            </div>
+          </div>
+
+          <div *ngIf="!question.dependentQuestion.dependentFlag">
+            <input (change)="pushResponse(section,question)" [(ngModel)]="question.paragraph"
+                   [placeholder]="question.questionTitle" class="form-control " type="text">
+          </div>
+        </div>
+
+        <hr/>
+        <div class="text-sm-center">
+          <!--   <button class="btn btn-default" (click)="goToQuestion(0,sectionPage);">First</button>
+             <button class="btn btn-default"  (click)="goToQuestion(questionPage- 1,sectionPage);">Prev</button>
+             <button class="btn btn-primary" (click)="goToQuestion(questionPage + 1,sectionPage);">Next</button>
+             <button class="btn btn-default" (click)="goToQuestion(section.questions.length- 1,sectionPage);">Last</button> -->
+          <!--<pagination *ngIf="config.showPager" direction-links="false" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></pagination>-->
+        </div>
+
       </div>
+
+
+      <!--  <div class="row review" *ngIf="mode=='review'">
+          <div class="col-sm-4" *ngFor="let question of section.questions; let index = index;">
+            <div (click)="goTo(index)" class="{{ isAnswered(question) == 'Answered'? 'answered': 'not-answered' }}">{{index + 1}}. {{ isAnswered(question) }}</div>
+          </div>
+        </div> -->
+
+      <hr/>
+
+
+    </div>
+    <div *ngIf="mandatoryQuesList.length>0" class="alert alert-danger">One of required field is missing</div>
+    <div *ngIf="mode!='result'">
+      <button (click)="mode = 'survey'" class="btn btn-default">Survey</button>
+      <button (click)="goToSection(sectionPage+1)" class="btn btn-default"> Next Section</button>
+      {{previewFlag}}
+      <button (click)="onSurveySubmit();" *ngIf="!previewFlag" class="btn btn-default">Submit Survey</button>
+      <!--[disabled]="mandatoryQuesList.length>0"-->
     </div>
   </div>
-  
+
+
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>

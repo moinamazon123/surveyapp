@@ -12,12 +12,12 @@ export class AppHeader implements AfterViewInit,OnInit {
   constructor(private router : Router
   ) { }
   ngOnInit(): void {
-    this.loggdInUser = sessionStorage.getItem("username");
-    console.log(sessionStorage.getItem("username"));
+    this.loggdInUser = localStorage.getItem("username");
+    console.log(localStorage.getItem("username"));
   }
 
   logout(){
-    sessionStorage.removeItem("username");
+    localStorage.removeItem("username");
     this.router.navigate(['/auth']);
   }
 

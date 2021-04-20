@@ -41,26 +41,30 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { InvoiceComponent } from './pages/invoice/invoice.component';
 
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { LockscreenComponent } from './pages/lockscreen/lockscreen.component';
-import { Error404Component } from './pages/error-404/error-404.component';
-import { Error500Component } from './pages/error-500/error-500.component';
-import { SurveyComponent } from './pages/survey/survey.component';
-import { SurveyPlayComponent } from './pages/survey-play/surveyplay.component';
-import { AuthComponent } from './pages/auth/signin/auth.component';
-import { RegisterComponent } from './pages/auth/signup/register.component';
+import {LockscreenComponent}from './pages/lockscreen/lockscreen.component';
+import {Error404Component}from './pages/error-404/error-404.component';
+import {Error500Component}from './pages/error-500/error-500.component';
+import {SurveyComponent }from './pages/survey/survey.component';
+import {SurveyPlayComponent}from './pages/survey-play/surveyplay.component';
+import {AuthComponent}from './pages/auth/signin/auth.component';
+import {RegisterComponent}from './pages/auth/signup/register.component';
+
+import {CommonModule}from '@angular/common';
+import {BrowserModule }from '@angular/platform-browser';
 
 const routes: Routes = [
-    {path: '', redirectTo: 'auth', pathMatch: 'full'},
-    {
-        "path": "",
-        "component": LayoutComponent,
-        "children": [
-            {
-                path: "index",
-                component: HomeComponent
-            },
-            {
-                path: "ui/colors",
+{path: '', redirectTo: 'index', pathMatch: 'full'
+},
+{
+"path": "",
+"component": LayoutComponent,
+"children": [
+{
+path: "index",
+component: HomeComponent
+},
+{
+path: "ui/colors",
                 component: ColorsComponent
             },
             {
@@ -162,38 +166,48 @@ const routes: Routes = [
             {
                 "path": "invoice",
                 "component": InvoiceComponent
-            },
-            {
-                path: "profile",
-                component: ProfileComponent
-            },
-            {
-                "path": "survey",
-                "component": SurveyComponent
-            },
-            {
-                "path": "surveyplay",
-                "component": SurveyPlayComponent
-            },
-        ]
-    },
- 
-    {
-        "path": "auth",
-        "component": AuthComponent
-    },
-    {
-        "path": "register",
-        "component": RegisterComponent
-    },
-   
-    {
-        "path": "lockscreen",
-        "component": LockscreenComponent
-    },
-    {
-        "path": "forgot_password",
-        "component": ForgotPasswordComponent
+},
+{
+path: "profile",
+component: ProfileComponent
+},
+{
+"path": "survey",
+"component": SurveyComponent
+},
+{
+path: 'surveyplay/:surveyIndex',
+component: SurveyPlayComponent
+},
+
+{
+path: 'surveypreview/:surveyIndex',
+
+component: SurveyPlayComponent
+
+},
+
+
+]
+},
+
+
+{
+"path": "auth",
+"component": AuthComponent
+},
+{
+"path": "register",
+"component": RegisterComponent
+},
+
+{
+"path": "lockscreen",
+"component": LockscreenComponent
+},
+{
+"path": "forgot_password",
+"component": ForgotPasswordComponent
     },
     {
         "path": "error_404",
@@ -237,18 +251,18 @@ const routes: Routes = [
     MailboxComponent,
     MailComposeComponent,
     MailViewComponent,
-    CalendarComponent,
-    ProfileComponent,
-    InvoiceComponent,
- 
+CalendarComponent,
+ProfileComponent,
+InvoiceComponent,
 
-    LockscreenComponent,
-    ForgotPasswordComponent,
-    Error404Component,
-    Error500Component,
-  ],
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ 
+
+LockscreenComponent,
+ForgotPasswordComponent,
+Error404Component,
+Error500Component,
+],
+imports: [ RouterModule.forRoot(routes),CommonModule,BrowserModule ],
+  exports: [
     RouterModule,
   ]
 })
